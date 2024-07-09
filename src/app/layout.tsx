@@ -1,10 +1,9 @@
+import "@mantine/core/styles.css";
 import type { Metadata } from "next";
 import { Mukta } from "next/font/google";
 import "./globals.css";
-
-import { MantineProvider, createTheme, ColorSchemeScript } from "@mantine/core";
-import "@mantine/core/styles.css";
-import theme from "@/theme";
+import { MantineProvider, ColorSchemeScript } from "@mantine/core";
+import { theme } from "@/theme";
 
 const mukta = Mukta({
   weight: ["200", "300", "400", "500", "600", "700", "800"],
@@ -28,9 +27,9 @@ export default function RootLayout({
       <head>
         <ColorSchemeScript />
       </head>
-      <MantineProvider theme={theme}>
-        <body className={mukta.className}>{children}</body>
-      </MantineProvider>
+      <body className={mukta.className}>
+        <MantineProvider theme={theme}>{children}</MantineProvider>
+      </body>
     </html>
   );
 }
