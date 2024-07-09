@@ -1,22 +1,23 @@
+"use client";
 import { createTheme } from "@mantine/core";
 
 const theme = createTheme({
   colors: {
     brand: [
-      "#e7f0ff",
-      "#cedbff",
-      "#9bb4ff",
-      "#648bff",
-      "#3768fe",
-      "#1952fe",
-      "#0347ff",
-      "#0039e4",
-      "#0031cc",
-      "#002ab5",
+      "#e9ebff",
+      "#cfd2ff",
+      "#9ba0ff",
+      "#636cff",
+      "#363fff",
+      "#1823ff",
+      "#0314ff",
+      "#0009e5",
+      "#0006cd",
+      "#0002b5",
     ],
   },
   primaryColor: "brand",
-  primaryShade: 6,
+  primaryShade: 5,
 });
 
 export default theme;
