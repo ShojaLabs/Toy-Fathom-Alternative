@@ -7,7 +7,7 @@ export default function Home() {
       <h1>Home</h1>
 
       <Button component={Link} href="/hello" className="m-4">
-        Next link button
+        Next link button in Protected route
       </Button>
     </div>
   );

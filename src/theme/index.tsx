@@ -17,6 +17,18 @@ export const theme = createTheme({
       "#0002b5",
     ],
   },
+  black: "#070814",
+  white: "#fffffe",
   primaryColor: "brand",
   primaryShade: 5,
+
+  radius: {
+    xs: "4px",
+    sm: "8px",
+    md: "12px",
+    lg: "16px",
+    xl: "24px",
+    full: "9999px",
+  },
+  defaultRadius: "sm",
 });

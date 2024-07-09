@@ -1,16 +1,9 @@
 import "@mantine/core/styles.css";
 import type { Metadata } from "next";
-import { Mukta } from "next/font/google";
 import "./globals.css";
 import { MantineProvider, ColorSchemeScript } from "@mantine/core";
 import { theme } from "@/theme";
-
-const mukta = Mukta({
-  weight: ["200", "300", "400", "500", "600", "700", "800"],
-  style: "normal",
-  display: "swap",
-  subsets: ["latin", "latin-ext"],
-});
+import { font } from "@/theme/font";
 
 export const metadata: Metadata = {
   title: "Tokyo",
@@ -27,7 +20,7 @@ export default function RootLayout({
       <head>
         <ColorSchemeScript />
       </head>
-      <body className={mukta.className}>
+      <body className={font.className}>
         <MantineProvider theme={theme}>{children}</MantineProvider>
       </body>
     </html>
