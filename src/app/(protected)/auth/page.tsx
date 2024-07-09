@@ -16,7 +16,7 @@ import {
   Title,
 } from "@mantine/core";
 import { GoogleButton } from "./GoogleButton";
-import { TwitterButton } from "./TwitterButton";
+import { GithubButton } from "./GithubButton";
 import { font } from "@/theme/font";
 
 export default function AuthenticationForm(props: PaperProps) {
@@ -44,7 +44,7 @@ export default function AuthenticationForm(props: PaperProps) {
 
       <Group grow mb="md" className="mt-12">
         <GoogleButton size="lg">Google</GoogleButton>
-        <TwitterButton size="lg">Twitter</TwitterButton>
+        <GithubButton size="lg">Github</GithubButton>
       </Group>
 
       <Divider
