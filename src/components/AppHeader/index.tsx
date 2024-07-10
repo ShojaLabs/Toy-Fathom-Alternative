@@ -22,6 +22,8 @@ import {
   IconSwitchHorizontal,
   IconTorii,
 } from "@tabler/icons-react";
+import Session from "supertokens-web-js/recipe/session";
+import { useRouter } from "next/navigation";
 
 const user = {
   name: "Jane Spoonfighter",
@@ -31,9 +33,15 @@ const user = {
 };
 
 export default function AppHeader() {
+  const router = useRouter();
   const theme = useMantineTheme();
   const [opened, { toggle }] = useDisclosure(false);
   const [userMenuOpened, setUserMenuOpened] = useState(false);
+
+  async function logout() {
+    await Session.signOut();
+    router.push("/auth");
+  }
 
   return (
     <Paper component="div" className="bg-gray-50 p-1" withBorder>
@@ -127,6 +135,7 @@ export default function AppHeader() {
                     stroke={1.5}
                   />
                 }
+                onClick={logout}
               >
                 Logout
               </Menu.Item>
