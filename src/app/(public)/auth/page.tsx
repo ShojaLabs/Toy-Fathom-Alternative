@@ -21,6 +21,7 @@ import { GithubButton } from "./GithubButton";
 import { signUp, signIn } from "supertokens-web-js/recipe/emailpassword";
 import { notifications } from "@mantine/notifications";
 import Session from "supertokens-web-js/recipe/session";
+import { getAuthorisationURLWithQueryParamsAndSetState } from "supertokens-web-js/recipe/thirdparty";
 
 export default function AuthenticationForm(props: PaperProps) {
   const router = useRouter();
@@ -46,15 +47,11 @@ export default function AuthenticationForm(props: PaperProps) {
 
   useEffect(() => {
     // if a signed in user visits the sign in page, we redirect them to the home page
-    void Session.doesSessionExist()
-      .then((hasSession) => {
-        if (hasSession) {
-          router.replace("/");
-        }
-      })
-      .catch(() => {
-        // If there is an error, we do nothing for now.
-      });
+    void Session.doesSessionExist().then((hasSession) => {
+      if (hasSession) {
+        router.replace("/");
+      }
+    });
   }, [router]);
 
   async function signInClicked(formValues: {
@@ -202,13 +199,51 @@ export default function AuthenticationForm(props: PaperProps) {
     }
   }
 
+  async function socialLogin(thirdPartyId: "google" | "github") {
+    try {
+      const authUrl = await getAuthorisationURLWithQueryParamsAndSetState({
+        thirdPartyId,
+
+        // This is where Google should redirect the user back after login or error.
+        // This URL goes on the Google's dashboard as well.
+        frontendRedirectURI: process.env
+          .NEXT_PUBLIC_AUTH_SOCIAL_CALLBACK as string,
+      });
+
+      /*
+      Example value of authUrl: https://accounts.google.com/o/oauth2/v2/auth/oauthchooseaccount?scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email&access_type=offline&include_granted_scopes=true&response_type=code&client_id=1060725074195-kmeum4crr01uirfl2op9kd5acmi9jutn.apps.googleusercontent.com&state=5a489996a28cafc83ddff&redirect_uri=https%3A%2F%2Fsupertokens.io%2Fdev%2Foauth%2Fredirect-to-app&flowName=GeneralOAuthFlow
+      */
+
+      router.push(authUrl);
+    } catch (err: any) {
+      if (err.isSuperTokensGeneralError === true) {
+        // this may be a custom error message sent from the API by you.
+        notifications.show({
+          color: "red",
+          title: "Failed to sign in",
+          message: err.message,
+        });
+      } else {
+        notifications.show({
+          color: "red",
+          title: "Failed to sign in",
+          message: "Oops! Something went wrong.",
+        });
+      }
+    }
+  }
+
   return (
     <Paper className="max-w-lg mx-auto mt-48 p-6" withBorder {...props}>
       <h1 className="text-5xl font-bold text-center">Welcome to Shoja!</h1>
 
       <Group grow mb="md" className="mt-12">
-        <GoogleButton size="lg">Google</GoogleButton>
-        <GithubButton size="lg">Github</GithubButton>
+        <GoogleButton size="lg" onClick={() => socialLogin("google")}>
+          Google
+        </GoogleButton>
+        <GithubButton size="lg" onClick={() => socialLogin("github")}>
+          Github
+        </GithubButton>
       </Group>
 
       <Divider
