@@ -1,4 +1,6 @@
 "use client";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useToggle, upperFirst } from "@mantine/hooks";
 import { useForm } from "@mantine/form";
 import {
@@ -13,14 +15,18 @@ import {
   Checkbox,
   Anchor,
   Stack,
-  Title,
+  Notification,
 } from "@mantine/core";
 import { GoogleButton } from "./GoogleButton";
 import { GithubButton } from "./GithubButton";
-import { font } from "@/theme/font";
+import { signUp, signIn } from "supertokens-web-js/recipe/emailpassword";
+import { notifications } from "@mantine/notifications";
 
 export default function AuthenticationForm(props: PaperProps) {
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
   const [type, toggle] = useToggle(["login", "register"]);
+
   const form = useForm({
     initialValues: {
       email: "",
@@ -37,6 +43,151 @@ export default function AuthenticationForm(props: PaperProps) {
           : null,
     },
   });
+
+  async function signInClicked(formValues: {
+    email: string;
+    password: string;
+  }) {
+    const { email, password } = formValues;
+    try {
+      let response = await signIn({
+        formFields: [
+          {
+            id: "email",
+            value: email,
+          },
+          {
+            id: "password",
+            value: password,
+          },
+        ],
+      });
+
+      if (response.status === "FIELD_ERROR") {
+        response.formFields.forEach((formField) => {
+          if (formField.id === "email") {
+            // Email validation failed (for example incorrect email syntax).
+            notifications.show({
+              color: "red",
+              title: "Failed to sign in",
+              message: formField.error,
+            });
+          }
+        });
+      } else if (response.status === "WRONG_CREDENTIALS_ERROR") {
+        notifications.show({
+          color: "red",
+          title: "Failed to sign in",
+          message: "Email password combination is incorrect.",
+        });
+      } else if (response.status === "SIGN_IN_NOT_ALLOWED") {
+        // the reason string is a user friendly message
+        // about what went wrong. It can also contain a support code which users
+        // can tell you so you know why their sign in was not allowed.
+        notifications.show({
+          color: "red",
+          title: "Failed to sign in",
+          message: response.reason,
+        });
+      } else {
+        // sign in successful. The session tokens are automatically handled by
+        // the frontend SDK.
+        router.replace("/");
+      }
+    } catch (err: any) {
+      if (err.isSuperTokensGeneralError === true) {
+        // this may be a custom error message sent from the API by you.
+        notifications.show({
+          color: "red",
+          title: "Failed to sign in",
+          message: err.message,
+        });
+      } else {
+        notifications.show({
+          color: "red",
+          title: "Failed to sign in",
+          message: "Oops! Something went wrong.",
+        });
+      }
+    }
+  }
+
+  async function signUpClicked(formValues: {
+    email: string;
+    password: string;
+    // name: string;
+  }) {
+    const { email, password } = formValues;
+    try {
+      let response = await signUp({
+        formFields: [
+          {
+            id: "email",
+            value: email,
+          },
+          {
+            id: "password",
+            value: password,
+          },
+          // {
+          //   id: "name",
+          //   value: name,
+          // },
+        ],
+      });
+
+      if (response.status === "FIELD_ERROR") {
+        // one of the input formFields failed validaiton
+        response.formFields.forEach((formField) => {
+          if (formField.id === "email") {
+            // Email validation failed (for example incorrect email syntax),
+            // or the email is not unique.
+            notifications.show({
+              color: "red",
+              title: "Failed to sign in",
+              message: formField.error,
+            });
+          } else if (formField.id === "password") {
+            // Password validation failed.
+            // Maybe it didn't match the password strength
+            notifications.show({
+              color: "red",
+              title: "Failed to sign in",
+              message: formField.error,
+            });
+          }
+        });
+      } else if (response.status === "SIGN_UP_NOT_ALLOWED") {
+        // the reason string is a user friendly message
+        // about what went wrong. It can also contain a support code which users
+        // can tell you so you know why their sign up was not allowed.
+        notifications.show({
+          color: "red",
+          title: "Failed to sign in",
+          message: response.reason,
+        });
+      } else {
+        // sign up successful. The session tokens are automatically handled by
+        // the frontend SDK.
+        router.replace("/");
+      }
+    } catch (err: any) {
+      if (err.isSuperTokensGeneralError === true) {
+        // this may be a custom error message sent from the API by you.
+        notifications.show({
+          color: "red",
+          title: "Failed to sign in",
+          message: err.message,
+        });
+      } else {
+        notifications.show({
+          color: "red",
+          title: "Failed to sign in",
+          message: "Oops! Something went wrong.",
+        });
+      }
+    }
+  }
 
   return (
     <Paper className="max-w-lg mx-auto mt-48 p-6" withBorder {...props}>
@@ -55,7 +206,23 @@ export default function AuthenticationForm(props: PaperProps) {
         my="lg"
       />
 
-      <form onSubmit={form.onSubmit(() => {})}>
+      <form
+        onSubmit={form.onSubmit(async () => {
+          console.log("Values : ", form.values);
+          setLoading(true);
+          try {
+            if (type === "login") {
+              await signInClicked(form.values);
+            } else {
+              await signUpClicked(form.values);
+            }
+          } catch (err) {
+            console.error(err);
+          } finally {
+            setLoading(false);
+          }
+        })}
+      >
         <Stack>
           {type === "register" && (
             <TextInput
@@ -120,7 +287,12 @@ export default function AuthenticationForm(props: PaperProps) {
               ? "Already have an account? Login"
               : "Don't have an account? Register"}
           </Anchor>
-          <Button type="submit" size="lg">
+          <Button
+            type="submit"
+            size="lg"
+            disabled={type === "register" && !form.values.terms}
+            loading={loading}
+          >
             {upperFirst(type)}
           </Button>
         </Group>
