@@ -1,6 +1,6 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useToggle, upperFirst } from "@mantine/hooks";
 import { useForm } from "@mantine/form";
 import {
@@ -15,12 +15,12 @@ import {
   Checkbox,
   Anchor,
   Stack,
-  Notification,
 } from "@mantine/core";
 import { GoogleButton } from "./GoogleButton";
 import { GithubButton } from "./GithubButton";
 import { signUp, signIn } from "supertokens-web-js/recipe/emailpassword";
 import { notifications } from "@mantine/notifications";
+import Session from "supertokens-web-js/recipe/session";
 
 export default function AuthenticationForm(props: PaperProps) {
   const router = useRouter();
@@ -43,6 +43,19 @@ export default function AuthenticationForm(props: PaperProps) {
           : null,
     },
   });
+
+  useEffect(() => {
+    // if a signed in user visits the sign in page, we redirect them to the home page
+    void Session.doesSessionExist()
+      .then((hasSession) => {
+        if (hasSession) {
+          router.replace("/");
+        }
+      })
+      .catch(() => {
+        // If there is an error, we do nothing for now.
+      });
+  }, [router]);
 
   async function signInClicked(formValues: {
     email: string;
