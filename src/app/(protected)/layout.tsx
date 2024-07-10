@@ -8,7 +8,7 @@ export default function ProtectedAppLayout({
 }>) {
   return (
     <AuthProvider>
-      <main className="p-1">
+      <main className="p-2">
         <AppHeader />
         {children}
       </main>
