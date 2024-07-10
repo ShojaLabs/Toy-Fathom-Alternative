@@ -1,4 +1,5 @@
 import AppHeader from "@/components/AppHeader";
+import AuthProvider from "@/supertokens/authProvider";
 
 export default function ProtectedAppLayout({
   children,
@@ -6,9 +7,11 @@ export default function ProtectedAppLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <main className="p-1">
-      <AppHeader />
-      {children}
-    </main>
+    <AuthProvider>
+      <main className="p-1">
+        <AppHeader />
+        {children}
+      </main>
+    </AuthProvider>
   );
 }
