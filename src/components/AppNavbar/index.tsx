@@ -108,7 +108,7 @@ export default function AppNavbar() {
             className={clsx(
               "font-semibold text-xs",
             )}
-            bg="dark.0"
+            bg="gray.1"
           >
             Cmd + K
           </Code>
