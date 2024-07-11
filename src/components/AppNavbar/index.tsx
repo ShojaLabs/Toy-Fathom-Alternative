@@ -10,6 +10,7 @@ import {
   Tooltip,
   rem,
   Paper,
+  Button,
 } from "@mantine/core";
 import {
   IconBulb,
@@ -87,27 +88,32 @@ export default function AppNavbar() {
       className={clsx("max-w-56", "flex flex-col", "p-2 mr-2")}
       withBorder
     >
-      <TextInput
-        placeholder="Search"
-        size="sm"
+      <Button
+        size="compact-md"
+        justify="space-between"
+        variant="light"
+        color="gray"
         leftSection={
-          <IconSearch
-            style={{ width: rem(12), height: rem(12) }}
-            stroke={1.5}
-          />
+          <>
+            <IconSearch
+              size={15}
+              stroke={2}
+              className="mr-2"
+            />
+            Search
+          </>
         }
-        rightSectionWidth={90}
         rightSection={
           <Code
             className={clsx(
-              "font-bold text-xs bg-gray-200",
-              "border rounded-md",
+              "font-semibold text-xs",
             )}
+            bg="dark.0"
           >
-            Ctrl + K
+            Cmd + K
           </Code>
         }
-        styles={{ section: { pointerEvents: "none" } }}
+        className="font-normal text-sm"
         mb="sm"
       />
 
