@@ -25,7 +25,7 @@ export default function RootLayout({
       </head>
       <SuperTokensProvider>
         <body className={font.className}>
-          <MantineProvider theme={theme}>
+          <MantineProvider theme={theme} defaultColorScheme="light">
             <Notifications />
             {children}
           </MantineProvider>

@@ -9,7 +9,7 @@ export default function ProtectedAppLayout({
 }>) {
   return (
     <AuthProvider>
-      <main className="h-screen p-2 flex flex-col">
+      <main className="h-screen p-2 flex flex-col bg-[#FAFAFA]">
         <AppHeader />
         <div className="flex grow mt-2">
           <AppNavbar />
