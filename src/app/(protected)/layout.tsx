@@ -13,7 +13,7 @@ export default function ProtectedAppLayout({
         <AppHeader />
         <div className="flex grow pt-2">
           <AppNavbar />
-          <div className="grow pl-4 pt-1">{children}</div>
+          <div className="grow ml-2">{children}</div>
         </div>
       </main>
     </AuthProvider>
