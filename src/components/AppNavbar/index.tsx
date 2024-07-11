@@ -9,6 +9,7 @@ import {
   ActionIcon,
   Tooltip,
   rem,
+  Paper,
 } from "@mantine/core";
 import {
   IconBulb,
@@ -81,13 +82,10 @@ export default function AppNavbar() {
   ));
 
   return (
-    <nav
-      className={clsx(
-        "max-w-56",
-        "flex flex-col",
-        "border-2 border-gray-100 rounded-lg",
-        "p-2 mr-2",
-      )}
+    <Paper
+      component="nav"
+      className={clsx("max-w-56", "flex flex-col", "p-2 mr-2")}
+      withBorder
     >
       <TextInput
         placeholder="Search"
@@ -133,6 +131,6 @@ export default function AppNavbar() {
         </Group>
         <div>{collectionLinks}</div>
       </div>
-    </nav>
+    </Paper>
   );
 }
