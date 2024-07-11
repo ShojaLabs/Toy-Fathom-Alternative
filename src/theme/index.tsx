@@ -42,5 +42,22 @@ export const theme = createTheme({
     xl: "24px",
     full: "9999px",
   },
-  defaultRadius: "sm",
+  // defaultRadius: "sm",
+
+  components: {
+    Paper: {
+      styles: {
+        root: {
+          borderColor: "var(--mantine-color-default-border)",
+        }
+      }
+    },
+    Input: {
+      styles: {
+        input: {
+          borderColor: "var(--mantine-color-default-border)",
+        }
+      }
+    }
+  }
 });
