@@ -11,9 +11,9 @@ export default function ProtectedAppLayout({
     <AuthProvider>
       <main className="h-screen p-2 flex flex-col">
         <AppHeader />
-        <div className="flex grow mt-2">
+        <div className="flex grow pt-2">
           <AppNavbar />
-          <div className="grow">{children}</div>
+          <div className="grow pl-4 pt-1">{children}</div>
         </div>
       </main>
     </AuthProvider>

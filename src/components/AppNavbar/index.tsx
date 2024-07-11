@@ -85,7 +85,7 @@ export default function AppNavbar() {
   return (
     <Paper
       component="nav"
-      className={clsx("max-w-56", "flex flex-col", "p-2 mr-2")}
+      className={clsx("max-w-56", "flex flex-col", "p-2")}
       withBorder
     >
       <Button
