@@ -26,7 +26,7 @@ export default function RootLayout({
         <ColorSchemeScript />
       </head>
       <SuperTokensProvider>
-        <body className={clsx(font.className, "bg-[#FAFAFA]")}>
+        <body className={clsx(font.className, "h-screen overflow-hidden")}>
           <MantineProvider theme={theme} cssVariablesResolver={cssResolver} defaultColorScheme="light">
             <Notifications />
             {children}
