@@ -1,25 +1,13 @@
-"use client";
-import {
-  TextInput,
-  Code,
-  UnstyledButton,
-  Badge,
-  Text,
-  Group,
-  ActionIcon,
-  Tooltip,
-  rem,
-  Paper,
-  Button,
-} from "@mantine/core";
+import { Code, UnstyledButton, Badge, Paper, Button } from "@mantine/core";
 import {
   IconBulb,
   IconUser,
   IconCheckbox,
   IconSearch,
-  IconPlus,
 } from "@tabler/icons-react";
 import { clsx } from "clsx";
+import appNavItems from "@/components/AppNavbar/routes";
+import NavItem from "./navItem";
 
 const links = [
   { icon: IconBulb, label: "Activity", notifications: 3 },
@@ -27,18 +15,7 @@ const links = [
   { icon: IconUser, label: "Contacts" },
 ];
 
-const collections = [
-  { emoji: "👍", label: "Sales" },
-  { emoji: "🚚", label: "Deliveries" },
-  { emoji: "💸", label: "Discounts" },
-  { emoji: "💰", label: "Profits" },
-  { emoji: "✨", label: "Reports" },
-  { emoji: "🛒", label: "Orders" },
-  { emoji: "📅", label: "Events" },
-  { emoji: "🙈", label: "Debts" },
-  { emoji: "💁‍♀️", label: "Customers" },
-];
-
+// TODO: Refactor this component to use the NavItem component
 export default function AppNavbar() {
   const mainLinks = links.map((link) => (
     <UnstyledButton
@@ -47,7 +24,7 @@ export default function AppNavbar() {
         "hover:bg-gray-100",
         "font-medium text-xs",
         "flex items-center",
-        "w-full rounded-md p-1",
+        "w-full rounded-md p-1"
       )}
     >
       <div className="flex items-center flex-1">
@@ -62,25 +39,10 @@ export default function AppNavbar() {
     </UnstyledButton>
   ));
 
-  const collectionLinks = collections.map((collection) => (
-    <a
-      href="#"
-      onClick={(event) => event.preventDefault()}
-      key={collection.label}
-      className={clsx(
-        "block",
-        "p-1",
-        "rounded-md",
-        "text-xs",
-        "hover:bg-gray-100",
-      )}
-    >
-      <span style={{ marginRight: rem(9), fontSize: rem(16) }}>
-        {collection.emoji}
-      </span>{" "}
-      {collection.label}
-    </a>
-  ));
+  const collectionLinks = Object.keys(appNavItems).map((rk) => {
+    const item = appNavItems[rk];
+    return <NavItem {...item} key={rk} />;
+  });
 
   return (
     <Paper
@@ -95,21 +57,12 @@ export default function AppNavbar() {
         color="gray"
         leftSection={
           <>
-            <IconSearch
-              size={15}
-              stroke={2}
-              className="mr-2"
-            />
+            <IconSearch size={15} stroke={2} className="mr-2" />
             Search
           </>
         }
         rightSection={
-          <Code
-            className={clsx(
-              "font-semibold text-xs",
-            )}
-            bg="gray.1"
-          >
+          <Code className={clsx("font-semibold text-xs")} bg="gray.1">
             Cmd + K
           </Code>
         }
@@ -121,22 +74,7 @@ export default function AppNavbar() {
         <div className={clsx("p-0")}>{mainLinks}</div>
       </div>
 
-      <div>
-        <Group className={clsx("pb-2")} justify="space-between">
-          <Text size="xs" fw={500} c="dimmed">
-            Collections
-          </Text>
-          <Tooltip label="Create collection" withArrow position="right">
-            <ActionIcon variant="default" size={18}>
-              <IconPlus
-                style={{ width: rem(12), height: rem(12) }}
-                stroke={1.5}
-              />
-            </ActionIcon>
-          </Tooltip>
-        </Group>
-        <div>{collectionLinks}</div>
-      </div>
+      <div>{collectionLinks}</div>
     </Paper>
   );
 }
