@@ -1,12 +1,14 @@
+import "@/styles/globals.css";
 import "@mantine/core/styles.css";
 import "@mantine/notifications/styles.css";
 import type { Metadata } from "next";
-import "@/styles/globals.css";
 import { MantineProvider, ColorSchemeScript } from "@mantine/core";
 import { theme } from "@/theme";
 import { font } from "@/theme/font";
 import { SuperTokensProvider } from "@/supertokens/provider";
 import { Notifications } from "@mantine/notifications";
+import { cssResolver } from "@/theme/cssResolvers";
+import clsx from "clsx";
 
 export const metadata: Metadata = {
   title: "Tokyo",
@@ -24,8 +26,8 @@ export default function RootLayout({
         <ColorSchemeScript />
       </head>
       <SuperTokensProvider>
-        <body className={font.className}>
-          <MantineProvider theme={theme} defaultColorScheme="light">
+        <body className={clsx(font.className, "bg-[#FAFAFA]")}>
+          <MantineProvider theme={theme} cssVariablesResolver={cssResolver} defaultColorScheme="light">
             <Notifications />
             {children}
           </MantineProvider>
