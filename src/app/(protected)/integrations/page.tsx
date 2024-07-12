@@ -1,6 +1,6 @@
 import { Title } from "@/components/Text";
-import { IntegrationCard } from "@/components/Card/integration";
 import { Paper, ScrollArea } from "@mantine/core";
+import integrations from "@/integrations";
 
 export default function Integrations() {
   return (
@@ -8,25 +8,12 @@ export default function Integrations() {
       <Title className="mb-2">Integrations</Title>
       <ScrollArea>
         <div className="flex flex-wrap gap-4 pb-4 pt-2">
-          <IntegrationCard />
-          <IntegrationCard />
-          <IntegrationCard />
-          <IntegrationCard />
-          <IntegrationCard />
-          <IntegrationCard />
-          <IntegrationCard />
-          <IntegrationCard />
-          <IntegrationCard />
-          <IntegrationCard />
-          <IntegrationCard />
-          <IntegrationCard />
-          <IntegrationCard />
-          <IntegrationCard />
-          <IntegrationCard />
-          <IntegrationCard />
+          {Object.keys(integrations).map((ik) => {
+            const Intgr = integrations[ik];
+            return <Intgr key={ik} />;
+          })}
         </div>
       </ScrollArea>
-
     </Paper>
   );
 }
