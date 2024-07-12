@@ -1,6 +1,7 @@
 import { Title } from "@/components/Text";
 import { Paper, ScrollArea } from "@mantine/core";
-import integrations from "@/integrations";
+import { saasIntegrationList } from "./_saasIntegrations";
+import IntegrationCard from "./_components/integrationCard";
 
 export default function Integrations() {
   return (
@@ -8,9 +9,9 @@ export default function Integrations() {
       <Title className="mb-2">Integrations</Title>
       <ScrollArea>
         <div className="flex flex-wrap gap-4 pb-4 pt-2">
-          {Object.keys(integrations).map((ik) => {
-            const Intgr = integrations[ik];
-            return <Intgr key={ik} />;
+          {Object.keys(saasIntegrationList).map((ik) => {
+            const saas = saasIntegrationList[ik];
+            return <IntegrationCard key={ik} {...saas} />;
           })}
         </div>
       </ScrollArea>
