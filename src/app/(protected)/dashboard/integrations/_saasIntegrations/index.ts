@@ -7,7 +7,7 @@ export type IntegrationInfo = {
   image: string;
   alt: string;
   isRecommended: boolean;
-  installBtn?: () => JSX.Element;
+  installBtn?: () => JSX.Element | Promise<JSX.Element>;
 };
 
 export type SaasIntegrationList = {
