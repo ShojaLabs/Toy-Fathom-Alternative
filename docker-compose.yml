@@ -5,20 +5,22 @@ services:
   db:
     image: "postgres:latest"
     environment:
-      POSTGRES_USER: ${APP_DB_USER}
-      POSTGRES_PASSWORD: ${APP_DB_PASSWORD}
-      POSTGRES_DB: ${APP_DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      INIT_DB_LIST: ${INIT_DB_LIST}
     ports:
       - 5432:5432
     networks:
       - app_network
     restart: unless-stopped
     healthcheck:
-      test:
-        ["CMD", "pg_isready", "-U", "${APP_DB_USER}", "-d", "${APP_DB_NAME}"]
+      test: ["CMD", "pg_isready", "-U", "${DB_USER}", "-d", "${AUTH_DB}"]
       interval: 5s
       timeout: 5s
       retries: 5
+    volumes:
+      - ./scripts/init_db.sh:/docker-entrypoint-initdb.d/entrypoint.sh
+      - pgdata:/var/lib/postgresql/data
 
   supertokens:
     image: registry.supertokens.io/supertokens/supertokens-postgresql:9.0.2
@@ -28,7 +30,7 @@ services:
     ports:
       - 3567:3567
     environment:
-      POSTGRESQL_CONNECTION_URI: "postgresql://${APP_DB_USER}:${APP_DB_PASSWORD}@db:5432/${APP_DB_NAME}"
+      POSTGRESQL_CONNECTION_URI: "postgresql://${DB_USER}:${DB_PASSWORD}@db:5432/${AUTH_DB}"
     networks:
       - app_network
     restart: unless-stopped
@@ -42,3 +44,11 @@ services:
 networks:
   app_network:
     driver: bridge
+
+volumes:
+  pgdata:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./stacks/db_data
