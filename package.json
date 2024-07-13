@@ -6,7 +6,15 @@
     "dev": "next dev --turbo",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "studio": "drizzle-kit studio",
+    "dbg": "drizzle-kit generate",
+    "dbm": "drizzle-kit migrate",
+    "dbpull": "drizzle-kit introspect",
+    "dbpush": "drizzle-kit push",
+    "dbmdrop": "drizzle-kit drop",
+    "dbupmeta": "drizzle-kit up",
+    "dbcheck": "drizzle-kit check"
   },
   "dependencies": {
     "@mantine/core": "^7",
