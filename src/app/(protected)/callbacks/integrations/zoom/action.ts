@@ -16,29 +16,22 @@ const axiosInstance = axios.create({
   },
 });
 
-type OauthCreds = {
-  id: string;
-  user_id: string;
-};
-
 // https://docs.recall.ai/docs/recall-managed-oauth#calling-the-recall-api
-async function postTokenToRecall(code: string, userId: string) {
+export async function connect(code: string, userId: string) {
   let status = false;
   try {
-    const response: OauthCreds = await axiosInstance.post(
-      "zoom-oauth-credentials",
-      {
-        oauth_app: process.env.NEXT_PUBLIC_ZOOM_CLIENT_ID,
-        authorization_code: {
-          code,
-          redirect_uri: process.env.NEXT_PUBLIC_ZOOM_REDIRECT_URL,
-        },
-      }
-    );
+    console.log("Connecting Zoom to Recall...", { code, userId });
+    const { data } = await axiosInstance.post("zoom-oauth-credentials", {
+      oauth_app: process.env.RECALL_ZOOM_OAUTH_APP_ID,
+      authorization_code: {
+        code,
+        redirect_uri: process.env.NEXT_PUBLIC_ZOOM_REDIRECT_URL,
+      },
+    });
 
-    const { id, user_id } = response;
+    const { id, user_id } = data;
 
-    console.log("Zoom Install Successful : ", { userId, code }, response);
+    console.log("Zoom Install Successful : ", { userId, code }, data);
 
     // Save the Zoom OAuth credentials to DB
     const res = await db.insert(recallZoomOauthCreds).values({
@@ -48,7 +41,10 @@ async function postTokenToRecall(code: string, userId: string) {
     });
     status = true;
   } catch (error) {
-    console.error("Error in postTokenToRecall", error);
+    console.error(
+      "Error in connecting zoom to recall (zoom-oauth-credentials)...\n",
+      error
+    );
   } finally {
     if (status) {
       redirect("/integrations");
