@@ -21,7 +21,7 @@ export default function AppNavbar() {
     <UnstyledButton
       key={link.label}
       className={clsx(
-        "hover:bg-gray-100",
+        "hover:bg-gray-200/70",
         "font-medium text-xs",
         "flex items-center",
         "w-full rounded-md p-1"
@@ -49,12 +49,13 @@ export default function AppNavbar() {
       component="nav"
       className={clsx("min-w-60", "flex flex-col", "p-2 h-full")}
       withBorder
+      bg="gray.0"
     >
       <Button
         size="compact-md"
         justify="space-between"
-        variant="light"
-        color="gray"
+        // variant="light"
+        color="gray.1"
         leftSection={
           <>
             <IconSearch size={15} stroke={2} className="mr-2" />
@@ -62,11 +63,11 @@ export default function AppNavbar() {
           </>
         }
         rightSection={
-          <Code className={clsx("font-semibold text-xs")} bg="gray.1">
+          <Code className={clsx("font-semibold text-xs")} bg="gray.2">
             Cmd + K
           </Code>
         }
-        className="font-normal text-sm"
+        className="font-normal text-sm text-gray-900"
         mb="sm"
       />
 

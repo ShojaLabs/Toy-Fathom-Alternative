@@ -11,7 +11,7 @@ const NavItem: React.FC<NavItemType> = (link) => {
         <UnstyledButton
           key={link.label}
           className={clsx(
-            "hover:bg-gray-100",
+            "hover:bg-gray-200/70",
             "font-medium text-xs",
             "flex items-center",
             "w-full rounded-md p-1 mb-1"

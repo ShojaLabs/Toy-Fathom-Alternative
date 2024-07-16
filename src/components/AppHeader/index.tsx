@@ -44,7 +44,7 @@ export default function AppHeader() {
   }
 
   return (
-    <Paper component="div" className="p-2" withBorder>
+    <Paper component="div" className="p-2" withBorder bg="gray.0">
       <Container className="p-0" size="full">
         <Group justify="space-between">
           <UnstyledButton>

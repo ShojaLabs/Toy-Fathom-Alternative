@@ -13,9 +13,5 @@ export const NavWrapper = ({
   const pathname = usePathname();
   if (pathname != path) return <>{children}</>;
 
-  return (
-    <Box className="rounded-md" bg="brand.1">
-      {children}
-    </Box>
-  );
+  return <Box className="rounded-md bg-indigo-200">{children}</Box>;
 };
