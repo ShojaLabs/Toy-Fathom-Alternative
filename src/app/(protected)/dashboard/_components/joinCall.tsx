@@ -20,7 +20,7 @@ function JoinCall() {
     },
   });
   return (
-    <Paper className="mt-4" p="sm" withBorder>
+    <Paper className="mt-4" p="sm" bg="gray.0" withBorder>
       <Title className="text-base">Join Zoom Meeting!</Title>
       <form
         className={"mt-4 flex gap-4 items-end"}
@@ -30,9 +30,8 @@ function JoinCall() {
         }}
       >
         <TextInput
-          className={"grow"}
+          className="grow"
           labelProps={{ className: "text-sm" }}
-          label={"Zoom Link"}
           name={"link"}
           value={form.values.link}
           onChange={(event) =>
@@ -42,7 +41,7 @@ function JoinCall() {
           placeholder={"https://us05web.zoom.us/s/859245?pwd=TEGTKYVsWs7bq5.1"}
         />
         <Button type={"submit"} size={"lg"}>
-          Join
+          Join With Bot
         </Button>
       </form>
     </Paper>
