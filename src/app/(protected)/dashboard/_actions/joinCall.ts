@@ -45,9 +45,8 @@ export async function bot_joinCallOnDemand(link: string) {
 
     await db.insert(recallMeetingBots).values(meetingBotData);
     status = true;
-  } catch (error) {
-    console.error("Error in joining call (join-call)...\n", error);
-  } finally {
-    return status;
+  } catch (error: any) {
+    console.error("Error in joining call (join-call)...", error?.message);
   }
+  return status;
 }

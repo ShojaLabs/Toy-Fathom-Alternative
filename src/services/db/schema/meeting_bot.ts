@@ -9,12 +9,12 @@ import {
 
 export const recallMeetingBots = pgTable("recall_meeting_bot", {
   id: bigserial("id", { mode: "number" }).notNull().primaryKey(),
-  userId: uuid("user_id").notNull().unique(),
+  userId: uuid("user_id").notNull(),
   botId: uuid("bot_id").notNull(),
   platform: varchar("platform", { length: 256 }).notNull(),
   meetingUrl: varchar("meeting_url", { length: 1024 }).notNull(),
-  videoUrl: varchar("video_url", { length: 1024 }),
-  recording: text("recording"),
+  videoUrl: text("video_url"),
+  recording: varchar("recording", { length: 1024 }),
   joinAt: timestamp("join_at").defaultNow(),
   retentionEnd: timestamp("retention_end"),
 
