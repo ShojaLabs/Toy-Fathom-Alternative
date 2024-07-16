@@ -1,4 +1,4 @@
-import { Title } from "@/components/Text";
+import { Title } from "@/components/Title";
 import { Paper, ScrollArea } from "@mantine/core";
 import { saasIntegrationList } from "./_saasIntegrations";
 import IntegrationCard from "./_components/integrationCard";

@@ -1,4 +1,4 @@
-import { Title } from "@/components/Text";
+import { Title } from "@/components/Title";
 import { SampleCard } from "@/components/Card/sample";
 import { Paper, ScrollArea } from "@mantine/core";
 
@@ -26,7 +26,6 @@ export default function Integrations() {
           <SampleCard />
         </div>
       </ScrollArea>
-
     </Paper>
   );
 }
