@@ -25,8 +25,12 @@ function JoinCall() {
       <form
         className={"mt-4 flex gap-4 items-end"}
         action={() => {
-          console.log("Join Call: ", form.values.link);
-          bot_joinCallOnDemand(form.values.link);
+          const zoomUrl = form.values.link;
+          form.reset();
+          console.log("Join Call: ", zoomUrl);
+          bot_joinCallOnDemand(zoomUrl);
+
+          window.open(zoomUrl, "_blank");
         }}
       >
         <TextInput
