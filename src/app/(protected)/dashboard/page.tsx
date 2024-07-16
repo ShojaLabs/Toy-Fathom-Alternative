@@ -1,9 +1,11 @@
-import { Title } from "@/components/Text";
+import { Title } from "@/components/Title";
+import JoinCall from "@/app/(protected)/dashboard/_components/joinCall";
 
 export default function Home() {
   return (
-    <>
-      <Title>HomePage</Title>
-    </>
+    <div>
+      <Title>Shoja</Title>
+      <JoinCall />
+    </div>
   );
 }
