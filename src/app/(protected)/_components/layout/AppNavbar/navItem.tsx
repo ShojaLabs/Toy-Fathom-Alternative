@@ -2,12 +2,12 @@ import { NavItemType } from "@/app/(protected)/_components/layout/AppNavbar/rout
 import { UnstyledButton } from "@mantine/core";
 import clsx from "clsx";
 import Link from "next/link";
-import { NavWrapper } from "./navWrapper";
+import { NavActiveIndicator } from "./navActiveIndicator";
 
 const NavItem: React.FC<NavItemType> = (link) => {
   return (
     <Link href={link.path}>
-      <NavWrapper path={link.path}>
+      <NavActiveIndicator path={link.path}>
         <UnstyledButton
           key={link.label}
           className={clsx(
@@ -31,7 +31,7 @@ const NavItem: React.FC<NavItemType> = (link) => {
         </Badge>
       )} */}
         </UnstyledButton>
-      </NavWrapper>
+      </NavActiveIndicator>
     </Link>
   );
 };
