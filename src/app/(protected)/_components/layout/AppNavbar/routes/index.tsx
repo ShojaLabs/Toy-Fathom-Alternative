@@ -22,32 +22,32 @@ export type AppNavItemsType = {
 
 const appNavItems: AppNavItemsType = {
   home: {
-    path: "/dashboard",
+    path: "/",
     icon: IconSparkles,
     label: "Shoja",
   },
   dashboard: {
-    path: "/dashboard/inbox",
+    path: "/inbox",
     icon: IconMailbox,
     label: "Review",
   },
   org: {
-    path: "/dashboard/org",
+    path: "/org",
     icon: IconAffiliate,
     label: "Organization",
   },
   integrations: {
-    path: "/dashboard/integrations",
+    path: "/integrations",
     icon: IconMathIntegrals,
     label: "Integrations",
   },
   settings: {
-    path: "/dashboard/settings",
+    path: "/settings",
     icon: IconSettings,
     label: "Settings",
   },
   sample: {
-    path: "/dashboard/sample",
+    path: "/sample",
     icon: IconApple,
     label: "Sample",
   },
