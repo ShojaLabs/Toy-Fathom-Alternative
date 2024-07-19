@@ -2,6 +2,7 @@ import AuthProvider from "@/supertokens/authProvider";
 import React from "react";
 import AppNavbar from "./_components/layout/AppNavbar";
 import { AppHeader } from "./_components/layout/appHeader";
+import { ScrollArea } from "@mantine/core";
 
 export default function ProtectedAppLayout({
   children,
@@ -19,7 +20,13 @@ export default function ProtectedAppLayout({
             <AppHeader />
           </div>
           <div className="relative grow px-2">
-            {children}
+            <div className="absolute h-full flex flex-col">
+              <ScrollArea>
+                <div className="py-2">
+                  {children}
+                </div>
+              </ScrollArea>
+            </div>
           </div>
         </div>
       </main>
