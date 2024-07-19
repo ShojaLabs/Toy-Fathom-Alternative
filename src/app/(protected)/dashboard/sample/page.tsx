@@ -4,10 +4,10 @@ import { Paper, ScrollArea } from "@mantine/core";
 
 export default function Integrations() {
   return (
-    <Paper className="h-full flex flex-col px-2">
+    <div className="absolute h-full flex flex-col">
       <Title className="mb-2">Sample</Title>
       <ScrollArea>
-        <div className="flex flex-wrap gap-4 pb-4 pt-2">
+        <div className="flex flex-wrap gap-4 py-2">
           <SampleCard />
           <SampleCard />
           <SampleCard />
@@ -26,6 +26,6 @@ export default function Integrations() {
           <SampleCard />
         </div>
       </ScrollArea>
-    </Paper>
+    </div>
   );
 }
