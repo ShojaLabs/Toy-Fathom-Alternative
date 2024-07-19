@@ -7,7 +7,6 @@ export default function IntegrationCard(props: IntegrationInfo) {
   const { title, description, image, alt, isRecommended } = props;
   return (
     <Card
-      withBorder
       padding="lg"
       bg="gray.0"
       className="w-80 relative flex flex-col justify-between"

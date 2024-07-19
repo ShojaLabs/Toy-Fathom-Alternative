@@ -21,10 +21,9 @@ function JoinZoomCall() {
   });
   return (
     <Paper
-      className="mt-4"
       p="sm"
       bg="gray.0"
-      withBorder
+      className="w-full"
     >
       <Title className="text-base">Join Zoom Meeting!</Title>
       <form
@@ -52,6 +51,7 @@ function JoinZoomCall() {
         <Button
           type={"submit"}
           size={"lg"}
+          disabled={!form.values.link || !!form.errors.link}
         >
           Join With Bot
         </Button>

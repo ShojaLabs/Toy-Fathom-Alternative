@@ -19,8 +19,8 @@ export default function ProtectedAppLayout({
           <div className="relative top-0 left-0 w-full p-2 z-10 min-h-14">
             <AppHeader />
           </div>
-          <div className="relative grow px-2">
-            <div className="absolute h-full flex flex-col">
+          <div className="relative grow">
+            <div className="absolute flex flex-col h-full w-full px-2">
               <ScrollArea>
                 <div className="py-2">
                   {children}
