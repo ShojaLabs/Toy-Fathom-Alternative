@@ -3,9 +3,9 @@ import React from "react";
 import { Button, Paper, TextInput } from "@mantine/core";
 import { Title } from "@/components/Title";
 import { useForm } from "@mantine/form";
-import { bot_joinCallOnDemand } from "@/app/(protected)/dashboard/_actions/joinCall";
+import { bot_joinCallOnDemand } from "./action_joinCallOnDemand";
 
-function JoinCall() {
+function JoinZoomCall() {
   const form = useForm({
     initialValues: {
       link: "",
@@ -20,7 +20,12 @@ function JoinCall() {
     },
   });
   return (
-    <Paper className="mt-4" p="sm" bg="gray.0" withBorder>
+    <Paper
+      className="mt-4"
+      p="sm"
+      bg="gray.0"
+      withBorder
+    >
       <Title className="text-base">Join Zoom Meeting!</Title>
       <form
         className={"mt-4 flex gap-4 items-end"}
@@ -44,7 +49,10 @@ function JoinCall() {
           size="lg"
           placeholder={"https://us05web.zoom.us/s/859245?pwd=TEGTKYVsWs7bq5.1"}
         />
-        <Button type={"submit"} size={"lg"}>
+        <Button
+          type={"submit"}
+          size={"lg"}
+        >
           Join With Bot
         </Button>
       </form>
@@ -52,4 +60,4 @@ function JoinCall() {
   );
 }
 
-export default JoinCall;
+export default JoinZoomCall;

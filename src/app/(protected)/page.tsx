@@ -1,11 +1,11 @@
 import { Title } from "@/components/Title";
-import JoinCall from "@/app/(protected)/dashboard/_components/joinCall";
+import JoinZoomCall from "./_components/page/joinZoomCall";
 
 export default function Home() {
   return (
     <div>
       <Title>Shoja</Title>
-      <JoinCall />
+      <JoinZoomCall />
     </div>
   );
 }
