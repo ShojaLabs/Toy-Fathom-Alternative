@@ -1,7 +1,7 @@
 import AuthProvider from "@/supertokens/authProvider";
 import React from "react";
-import AppNavbar from "./_components/AppNavbar";
-import { AppHeader } from "./_components/appHeader";
+import AppNavbar from "./_components/layout/AppNavbar";
+import { AppHeader } from "./_components/layout/appHeader";
 
 export default function ProtectedAppLayout({
   children,

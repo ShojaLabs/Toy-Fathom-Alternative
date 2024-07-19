@@ -1,4 +1,4 @@
-import { NavItemType } from "@/app/(protected)/_components/AppNavbar/routes";
+import { NavItemType } from "@/app/(protected)/_components/layout/AppNavbar/routes";
 import { UnstyledButton } from "@mantine/core";
 import clsx from "clsx";
 import Link from "next/link";
