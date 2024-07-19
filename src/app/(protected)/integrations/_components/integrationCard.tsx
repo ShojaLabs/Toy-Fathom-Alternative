@@ -1,5 +1,5 @@
 import React from "react";
-import { IntegrationInfo } from "../_saasIntegrations/index";
+import { IntegrationInfo } from "../_saasIntegrations";
 import { Badge, Card, CardSection, Text } from "@mantine/core";
 import Image from "next/image";
 
@@ -28,7 +28,10 @@ export default function IntegrationCard(props: IntegrationInfo) {
             {isRecommended && <Badge color="pink">Recommended</Badge>}
           </div>
         </div>
-        <Text size="sm" c="dimmed">
+        <Text
+          size="sm"
+          c="dimmed"
+        >
           {description}
         </Text>
       </div>
