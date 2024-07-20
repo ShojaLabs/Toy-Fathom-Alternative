@@ -8,8 +8,9 @@ export default function IntegrationCard(props: IntegrationInfo) {
   return (
     <Card
       padding="lg"
-      bg="gray.0"
+      bg="dark.6"
       className="w-80 relative flex flex-col justify-between"
+      withBorder
     >
       <div className="mb-4">
         <div className="flex gap-6 mb-4 items-center">
@@ -27,10 +28,7 @@ export default function IntegrationCard(props: IntegrationInfo) {
             {isRecommended && <Badge color="pink">Recommended</Badge>}
           </div>
         </div>
-        <Text
-          size="sm"
-          c="dimmed"
-        >
+        <Text size="sm" c="dimmed">
           {description}
         </Text>
       </div>

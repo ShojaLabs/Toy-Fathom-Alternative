@@ -11,18 +11,14 @@ const NavItem: React.FC<NavItemType> = (link) => {
         <UnstyledButton
           key={link.label}
           className={clsx(
-            "hover:bg-gray-200/70",
+            "hover:bg-gray-800/20",
             "font-medium text-xs",
             "flex items-center",
-            "w-full rounded-md p-1 mb-1"
+            "w-full rounded-md p-1 mb-1",
           )}
         >
           <div className="flex items-center flex-1">
-            <link.icon
-              size={24}
-              className="mr-2"
-              stroke={1.5}
-            />
+            <link.icon size={24} className="mr-2" stroke={1.5} />
             <span className="text-sm">{link.label}</span>
           </div>
           {/* {link.notifications && (

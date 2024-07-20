@@ -30,7 +30,7 @@ export default function RootLayout({
           <MantineProvider
             theme={theme}
             cssVariablesResolver={cssResolver}
-            defaultColorScheme="light"
+            defaultColorScheme="dark"
           >
             <Notifications />
             {children}
