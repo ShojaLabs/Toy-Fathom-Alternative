@@ -1,28 +1,19 @@
 "use server";
 
 import db from "@/services/db";
-import axios from "axios";
 import { server_GetUserSession } from "@/supertokens/utils";
 import { recallMeetingBots } from "@/services/db/schema/meeting_bot";
+import Recall, { RecallApis } from "@/services/recall/apis";
 
-const recall_v1 = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_RECALL_API_BASE_PATH_V1,
-  headers: {
-    "Content-Type": "application/json",
-    common: {
-      Authorization: "Token " + process.env.RECALL_API_KEY,
-    },
-  },
-});
 export async function bot_joinCallOnDemand(link: string) {
   let status = false;
   try {
     const session = await server_GetUserSession();
     const userId = session?.getUserId();
     console.log("Joining Call...", { link });
-    const { data } = await recall_v1.post("bot", {
+    const { data } = await Recall.post(RecallApis.post_createBot(), {
       meeting_url: link,
-      bot_name: "Shoja.ai Notetaker",
+      bot_name: "Shoja.ai Note Taker",
       metadata: {
         userId: userId,
       },
@@ -46,7 +37,11 @@ export async function bot_joinCallOnDemand(link: string) {
     await db.insert(recallMeetingBots).values(meetingBotData);
     status = true;
   } catch (error: any) {
-    console.error("Error in joining call (join-call)...", error?.message);
+    console.error(
+      "Error in joining call (join-call)...",
+      error?.response?.data,
+      { error }
+    );
   }
   return status;
 }
