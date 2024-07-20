@@ -3,9 +3,9 @@ import React from "react";
 import { Button, Paper, TextInput } from "@mantine/core";
 import { Title } from "@/ui-components/Title";
 import { useForm } from "@mantine/form";
-import { bot_joinCallOnDemand } from "./action_joinCallOnDemand";
+import { bot_joinCallOnDemand } from "./actions";
 
-function JoinZoomCall() {
+function JoinZoomCallOnDemand() {
   const form = useForm({
     initialValues: {
       link: "",
@@ -63,4 +63,4 @@ function JoinZoomCall() {
   );
 }
 
-export default JoinZoomCall;
+export default JoinZoomCallOnDemand;

@@ -5,8 +5,8 @@ import { Button, Paper, UnstyledButton } from "@mantine/core";
 import { Search } from "./search";
 import { PageTitle } from "./pageTitle";
 import Image from "next/image";
-import JoinZoomCall from "@/app/(protected)/_components/page/joinZoomCall";
-import { IconCross, IconX } from "@tabler/icons-react";
+import JoinZoomCallOnDemand from "./quickActions/JoinZoomCallOnDemand";
+import { IconX } from "@tabler/icons-react";
 
 export default function AppHeader() {
   const [showZoom, setShowZoom] = React.useState(false);
@@ -50,7 +50,7 @@ export default function AppHeader() {
       </div>
       {showZoom && (
         <div className="py-2">
-          <JoinZoomCall />
+          <JoinZoomCallOnDemand />
         </div>
       )}
     </Paper>
