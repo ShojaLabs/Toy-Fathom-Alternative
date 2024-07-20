@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { Button, Paper, TextInput } from "@mantine/core";
-import { Title } from "@/components/Title";
+import { Title } from "@/ui-components/Title";
 import { useForm } from "@mantine/form";
 import { bot_joinCallOnDemand } from "./action_joinCallOnDemand";
 
@@ -20,7 +20,12 @@ function JoinZoomCall() {
     },
   });
   return (
-    <Paper p="sm" bg="dark.6" className="w-full" withBorder>
+    <Paper
+      p="sm"
+      bg="dark.6"
+      className="w-full"
+      withBorder
+    >
       <Title className="text-base">Join Zoom Meeting!</Title>
       <form
         className={"mt-4 flex gap-4 items-end"}
@@ -45,7 +50,11 @@ function JoinZoomCall() {
           size="lg"
           placeholder={"https://us05web.zoom.us/s/859245?pwd=TEGTKYVsWs7bq5.1"}
         />
-        <Button variant="light" type={"submit"} size={"lg"}>
+        <Button
+          variant="light"
+          type={"submit"}
+          size={"lg"}
+        >
           Join With Bot
         </Button>
       </form>

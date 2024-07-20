@@ -1,12 +1,12 @@
 import {
   Icon,
-  IconAffiliate,
-  IconApple,
+  IconBrandZoom,
   IconMailbox,
-  IconMathIntegrals,
+  IconMessageDots,
+  IconNews,
+  IconPlugConnected,
   IconProps,
-  IconSettings,
-  IconSparkles,
+  IconTopologyStarRing3,
 } from "@tabler/icons-react";
 import { ForwardRefExoticComponent, RefAttributes } from "react";
 
@@ -23,33 +23,23 @@ export type AppNavItemsType = {
 const appNavItems: AppNavItemsType = {
   home: {
     path: "/",
-    icon: IconSparkles,
-    label: "Shoja",
+    icon: IconNews,
+    label: "Home",
   },
-  dashboard: {
-    path: "/inbox",
-    icon: IconMailbox,
-    label: "Review",
+  messages: {
+    path: "/messages",
+    icon: IconMessageDots,
+    label: "Messages",
   },
-  org: {
-    path: "/org",
-    icon: IconAffiliate,
-    label: "Organization",
+  meetings: {
+    path: "/meetings",
+    icon: IconBrandZoom,
+    label: "Meetings",
   },
   integrations: {
     path: "/integrations",
-    icon: IconMathIntegrals,
+    icon: IconPlugConnected,
     label: "Integrations",
-  },
-  settings: {
-    path: "/settings",
-    icon: IconSettings,
-    label: "Settings",
-  },
-  sample: {
-    path: "/sample",
-    icon: IconApple,
-    label: "Sample",
   },
 };
 
