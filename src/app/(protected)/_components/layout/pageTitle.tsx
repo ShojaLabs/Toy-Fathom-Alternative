@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { Title } from "@/components/Title";
+import { Title } from "@/ui-components/Title";
 import appNavItems from "@/app/(protected)/_components/layout/AppNavbar/routes";
 
 export const PageTitle = () => {

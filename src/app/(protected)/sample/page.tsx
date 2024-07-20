@@ -1,4 +1,4 @@
-import { SampleCard } from "@/components/Card/sample";
+import { SampleCard } from "./_components/sample";
 
 export default function Integrations() {
   return (
