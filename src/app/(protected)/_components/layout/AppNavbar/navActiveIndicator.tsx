@@ -12,9 +12,13 @@ export const NavActiveIndicator = ({
   path: string;
 }) => {
   let pathname = usePathname();
-  pathname = pathname.split('/')[1];
-  path = path.split('/')[1];
+  pathname = pathname.split("/")[1];
+  path = path.split("/")[1];
   if (pathname != path) return <>{children}</>;
 
-  return <Box className="rounded-md bg-indigo-200">{children}</Box>;
+  return (
+    <Box className="rounded-md bg-brand-700/10 cursor-none pointer-events-none">
+      {children}
+    </Box>
+  );
 };

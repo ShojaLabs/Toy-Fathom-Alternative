@@ -1,11 +1,6 @@
 "use client";
 import { useState } from "react";
-import {
-  Menu,
-  rem,
-  useMantineTheme,
-  Button,
-} from "@mantine/core";
+import { Menu, rem, useMantineTheme, Button } from "@mantine/core";
 import {
   IconLogout,
   IconHeart,
@@ -42,12 +37,18 @@ export default function AppHeader() {
     >
       <Menu.Target>
         <Button
-          className={clsx("px-4 h-10")}
+          className={clsx(
+            "px-4 h-10",
+            userMenuOpened && "hover:text-white text-white",
+          )}
           variant="light"
-          color={userMenuOpened ? "brand" : "gray"}
+          color={userMenuOpened ? "brand.9" : "dark"}
           rightSection={
             <IconUser
-              className={clsx("mx-auto", userMenuOpened ? "text-brand-700" : "text-gray-500")}
+              className={clsx(
+                "mx-auto",
+                userMenuOpened ? "text-white" : "text-gray-500",
+              )}
               size="20px"
             />
           }

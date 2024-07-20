@@ -3,7 +3,7 @@ import { Button } from "@mantine/core";
 
 export default function InstallButton({ onClick }: { onClick: () => void }) {
   return (
-    <Button onClick={onClick} variant="light" color="indigo">
+    <Button onClick={onClick} variant="light" color="brand">
       Install
     </Button>
   );
