@@ -44,7 +44,7 @@ export async function analyseBotMedia(botId: string) {
         "iab_categories": true,
         "sentiment_analysis": true,
         "summarization": true,
-        "auto_chapters": true,
+        // "auto_chapters": true, this is mutually exclusive with summarization
         "entity_detection": true
       }
     });
