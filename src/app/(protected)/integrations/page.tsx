@@ -1,12 +1,14 @@
-import { saasIntegrationList } from "./_saasIntegrations";
 import IntegrationCard from "./_components/integrationCard";
+import db from "@/services/db";
+import { Integration, IntegrationTable } from "@/services/db/schema/integration"
 
-export default function Integrations() {
+export default async function IntegrationsPage() {
+  const integrations: IntegrationTable[] = await db.select().from(Integration);
+  console.log({ integrations });
   return (
     <div className="flex flex-wrap gap-2">
-      {Object.keys(saasIntegrationList).map((ik) => {
-        const saas = saasIntegrationList[ik];
-        return <IntegrationCard key={ik} {...saas} />;
+      {integrations.map((intg) => {
+        return <IntegrationCard key={intg.id} {...intg} />;
       })}
     </div>
   );

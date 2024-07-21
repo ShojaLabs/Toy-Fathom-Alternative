@@ -1,10 +1,12 @@
 import React from "react";
-import { IntegrationInfo } from "../_saasIntegrations";
 import { Badge, Card, CardSection, Text } from "@mantine/core";
 import Image from "next/image";
+import { IntegrationTable } from "@/services/db/schema/integration";
+import { IntegrationInstallActions } from "@/app/(protected)/integrations/_saasIntegrations";
 
-export default function IntegrationCard(props: IntegrationInfo) {
-  const { title, description, image, alt, isRecommended } = props;
+export default function IntegrationCard(props: IntegrationTable) {
+  const { title, description, logoUrl, isRecommended, uId } = props;
+  const Action = IntegrationInstallActions[uId];
   return (
     <Card
       padding="lg"
@@ -16,10 +18,10 @@ export default function IntegrationCard(props: IntegrationInfo) {
         <div className="flex gap-6 mb-4 items-center">
           <CardSection className="bg-white rounded-md w-24 h-3w-24 m-0">
             <Image
-              src={image}
+              src={logoUrl}
               width={500}
               height={500}
-              alt={alt}
+              alt={title}
               className="rounded-md"
             />
           </CardSection>
@@ -28,11 +30,14 @@ export default function IntegrationCard(props: IntegrationInfo) {
             {isRecommended && <Badge color="pink">Recommended</Badge>}
           </div>
         </div>
-        <Text size="sm" c="dimmed">
+        <Text
+          size="sm"
+          c="dimmed"
+        >
           {description}
         </Text>
       </div>
-      {props.installBtn && <props.installBtn />}
+      <Action />
     </Card>
   );
 }
