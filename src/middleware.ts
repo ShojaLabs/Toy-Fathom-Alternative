@@ -4,7 +4,7 @@ import type { NextRequest } from "next/server";
 import { SessionContainer } from "supertokens-node/recipe/session";
 import { ensureSuperTokensInit } from "./supertokens/backend";
 
-ensureSuperTokensInit();
+ensureSuperTokensInit(); // This causes problems - https://github.com/vercel/next.js/discussions/50177
 
 export async function middleware(
   request: NextRequest & { session?: SessionContainer },
