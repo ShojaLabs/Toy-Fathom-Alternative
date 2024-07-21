@@ -2,7 +2,7 @@ import db from "@/services/db";
 import { eq } from "drizzle-orm";
 import ZoomInstallButton from "./zoomInstallButton";
 import { server_GetUserSession } from "@/supertokens/utils";
-import { recallZoomOauthCreds } from "@/services/db/schema/zoom";
+import { ZoomOAuth } from "@/services/db/schema/zoom_oauth";
 import {
   IconAlertTriangleFilled,
   IconCircleCheckFilled,
@@ -35,10 +35,10 @@ export async function ZoomAction() {
     if (userId) {
       const zoomOAuth = await db
         .select({
-          id: recallZoomOauthCreds.id,
+          id: ZoomOAuth.id,
         })
-        .from(recallZoomOauthCreds)
-        .where(eq(recallZoomOauthCreds.userId, userId));
+        .from(ZoomOAuth)
+        .where(eq(ZoomOAuth.userId, userId));
 
       if (zoomOAuth.length > 0) {
         console.log("Zoom is installed");
