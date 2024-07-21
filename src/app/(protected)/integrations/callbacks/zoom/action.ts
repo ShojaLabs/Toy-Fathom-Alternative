@@ -1,11 +1,15 @@
 "use server";
 
-import { recallZoomOauthCreds } from "@/services/db/schema/zoom";
+import { ZoomOAuth } from "@/services/db/schema/zoom_oauth";
 import db from "@/services/db";
 import { redirect } from "next/navigation";
 import Recall, { RecallApis } from "@/services/recall/apis";
+import { Integration, IntegrationTable } from "@/services/db/schema/integration";
+import { eq } from "drizzle-orm";
+import { Installation } from "@/services/db/schema/installation";
+import Paths from "@/constants/paths";
 
-export async function connect(code: string, userId: string) {
+export async function install(code: string, userId: string) {
   let status = false;
   try {
     console.log("Connecting Zoom to Recall...", { code, userId });
@@ -21,11 +25,36 @@ export async function connect(code: string, userId: string) {
 
     console.log("Zoom Install Successful : ", { userId, code }, data);
 
-    // Save the Zoom OAuth credentials to DB
-    await db.insert(recallZoomOauthCreds).values({
-      userId,
-      recallId: id,
-      zoomUserId: user_id,
+    await db.transaction(async (tx) => {
+      try {
+        let zoomIntegration = await tx.query.Integration.findFirst({
+          where: eq(Integration.uId, "ZOOM")
+        });
+        console.log({ zoomIntegration });
+        zoomIntegration = Array.isArray(zoomIntegration) ? zoomIntegration[0] : zoomIntegration
+        const { id: integrationId } = zoomIntegration as IntegrationTable;
+
+        await tx.insert(Installation).values({
+          integrationId,
+          userId,
+        });
+
+        await tx.insert(ZoomOAuth).values({
+          id,
+          zoomUserId: user_id,
+          userId,
+          integrationId,
+        });
+      } catch (e) {
+        tx.rollback();
+        const deletion_resp = await Recall.delete(RecallApis.delete_zoomOAuthCredentials(id));
+        console.error("Zoom installation failed...", {
+          e,
+          userId,
+          deletion_resp
+        });
+        throw e;
+      }
     });
     status = true;
   } catch (error: any) {
@@ -36,7 +65,7 @@ export async function connect(code: string, userId: string) {
     );
   }
   if (status) {
-    redirect("/integrations");
+    redirect(Paths.dashboard.integrations());
   }
   return status;
 }
