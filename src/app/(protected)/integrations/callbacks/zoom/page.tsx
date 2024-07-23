@@ -4,7 +4,8 @@ import { notifications } from "@mantine/notifications";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Loader } from "@mantine/core";
 import { useSessionContext } from "supertokens-auth-react/recipe/session";
-import { connect } from "./action";
+import { install } from "./action";
+import Paths from "@/constants/paths";
 
 function usePageLoadEffect() {
   const router = useRouter();
@@ -15,15 +16,14 @@ function usePageLoadEffect() {
 
   useEffect(() => {
     if (userId && code) {
-      connect(code as string, userId as string).then((status) => {
+      install(code as string, userId as string).then((status) => {
         if (!status) {
           notifications.show({
-            title: "Failed to connect Zoom",
+            title: "Failed to install Zoom",
             message: "Please try again",
             color: "red",
           });
-
-          router.push("/dashboard/integrations");
+          router.push(Paths.dashboard.integrations());
         }
       });
     }
@@ -32,7 +32,12 @@ function usePageLoadEffect() {
 
 function HandleCallback() {
   usePageLoadEffect();
-  return <Loader className="block mx-auto mt-64" size={40} />;
+  return (
+    <Loader
+      className="block mx-auto mt-64"
+      size={40}
+    />
+  );
 }
 
 export default HandleCallback;

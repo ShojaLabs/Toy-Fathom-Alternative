@@ -1,8 +1,4 @@
-import db from "@/services/db";
-import { eq } from "drizzle-orm";
 import ZoomInstallButton from "./zoomInstallButton";
-import { server_GetUserSession } from "@/supertokens/utils";
-import { recallZoomOauthCreds } from "@/services/db/schema/zoom";
 import {
   IconAlertTriangleFilled,
   IconCircleCheckFilled,
@@ -27,25 +23,13 @@ function UnknownBanner() {
   );
 }
 
-export async function ZoomAction() {
+export async function ZoomAction({ installed }: { installed: boolean }) {
   try {
-    const session = await server_GetUserSession();
-    const userId = session?.getUserId();
-
-    if (userId) {
-      const zoomOAuth = await db
-        .select({
-          id: recallZoomOauthCreds.id,
-        })
-        .from(recallZoomOauthCreds)
-        .where(eq(recallZoomOauthCreds.userId, userId));
-
-      if (zoomOAuth.length > 0) {
-        console.log("Zoom is installed");
-        return <ConnectedBanner />;
-      } else {
-        return <ZoomInstallButton />;
-      }
+    if (installed) {
+      console.log("Zoom is installed");
+      return <ConnectedBanner />;
+    } else {
+      return <ZoomInstallButton />;
     }
   } catch (error) {
     console.error("Can't find out if Zoom is installed", error);

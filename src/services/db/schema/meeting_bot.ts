@@ -1,25 +1,40 @@
+import { sql } from "drizzle-orm";
 import {
   pgTable,
-  bigserial,
-  varchar,
   timestamp,
   uuid,
   text,
+  json,
+  boolean,
 } from "drizzle-orm/pg-core";
+import { Meeting } from "./meeting";
 
-export const recallMeetingBots = pgTable("recall_meeting_bot", {
-  id: bigserial("id", { mode: "number" }).notNull().primaryKey(),
-  userId: uuid("user_id").notNull(),
-  botId: uuid("bot_id").notNull(),
-  platform: varchar("platform", { length: 256 }).notNull(),
-  meetingUrl: varchar("meeting_url", { length: 1024 }).notNull(),
-  videoUrl: text("video_url"),
-  recording: varchar("recording", { length: 1024 }),
-  joinAt: timestamp("join_at").defaultNow(),
+export const MeetingBot = pgTable("meeting_bot", {
+  id: uuid("id") // local id
+    .default(sql`gen_random_uuid()`)
+    .primaryKey(),
+  recallBotId: uuid("recall_bot_id").notNull(), // bot id from recall
+  meetingId: uuid("meeting_id")
+    .notNull()
+    .references(() => Meeting.id),
+
+  metadata: json("metadata"),
+  transcript: json("transcript"), // json from recall, transcript by AssemblyAI
+  intelligence: json("intelligence"),
+  logs: json("logs"),
+  speakerTimeline: json("speaker_timeline"),
+
+  transcriptProcessed: boolean("transcript_processed").default(false),
+  transcriptRequested: boolean("transcript_requested").default(false), // requested by user (if this is true & transcript_processed is false; we may have to keep fetching the status from recall. In-case of error, reset this)
+
+  recallRecordingUrl: text("recall_recording_url"),
   retentionEnd: timestamp("retention_end"),
+  recordingUrl: text("recording_url"), // recording url shoja
+
+  joinAt: timestamp("join_at").defaultNow(),
 
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });
 
-export type RecallMeetingBots = typeof recallMeetingBots.$inferSelect;
+export type MeetingBotTable = typeof MeetingBot.$inferSelect;
