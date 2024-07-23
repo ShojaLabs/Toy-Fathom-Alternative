@@ -3,8 +3,12 @@ import { ZoomAction } from "./zoom";
 import { SlackAction } from "./slack";
 
 export const IntegrationInstallActions: {
-  [key: string]: () => React.ReactElement | Promise<React.ReactElement>;
+  [key: string]: ({
+    installed,
+  }: {
+    installed: boolean;
+  }) => React.ReactElement | Promise<React.ReactElement>;
 } = {
-  "ZOOM": ZoomAction,
-  "SLACK": SlackAction,
+  ZOOM: ZoomAction,
+  SLACK: SlackAction,
 };

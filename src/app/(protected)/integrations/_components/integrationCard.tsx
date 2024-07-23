@@ -4,8 +4,10 @@ import Image from "next/image";
 import { IntegrationTable } from "@/services/db/schema/integration";
 import { IntegrationInstallActions } from "@/app/(protected)/integrations/_saasIntegrations";
 
-export default function IntegrationCard(props: IntegrationTable) {
-  const { title, description, logoUrl, isRecommended, uId } = props;
+export default function IntegrationCard(
+  props: IntegrationTable & { installed: boolean },
+) {
+  const { title, description, logoUrl, isRecommended, uId, installed } = props;
   const Action = IntegrationInstallActions[uId];
   return (
     <Card
@@ -15,7 +17,7 @@ export default function IntegrationCard(props: IntegrationTable) {
       withBorder
     >
       <div className="mb-4">
-        <div className="flex gap-6 mb-4 items-center">
+        <div className="flex gap-6 mb-4 items-start">
           <CardSection className="bg-white rounded-md w-24 h-3w-24 m-0">
             <Image
               src={logoUrl}
@@ -27,17 +29,16 @@ export default function IntegrationCard(props: IntegrationTable) {
           </CardSection>
           <div>
             <Text className="text-2xl font-bold">{title}</Text>
-            {isRecommended && <Badge color="pink">Recommended</Badge>}
+            {!installed && isRecommended && (
+              <Badge color="pink">Recommended</Badge>
+            )}
           </div>
         </div>
-        <Text
-          size="sm"
-          c="dimmed"
-        >
+        <Text size="sm" c="dimmed">
           {description}
         </Text>
       </div>
-      <Action />
+      <Action installed={installed} />
     </Card>
   );
 }
