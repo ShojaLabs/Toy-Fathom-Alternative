@@ -13,13 +13,18 @@ export default async function Integrations() {
   const userId = session?.getUserId();
   // TODO: Paginate
   // TODO: Only fetch bots that are done recording (joinAt < today || null)
-  let meetings = await db
-    .select()
-    .from(Meeting)
-    .where(eq(Meeting.userId, userId!))
-    .groupBy(Meeting.id, Meeting.createdAt)
-    .orderBy(desc(Meeting.createdAt));
-
+  let meetings = await db.query.Meeting.findMany({
+    where: eq(Meeting.userId, userId!),
+    orderBy: [desc(Meeting.joinAt)],
+    with: {
+      meetingBot: {
+        columns: {
+          recallBotId: true,
+          transcriptRequested: true,
+        },
+      },
+    },
+  });
   let categorisedByDay: {
     [day: string]: typeof meetings;
   } = {};
@@ -62,7 +67,10 @@ export default async function Integrations() {
                       <Button variant="light">Details</Button>
                     </Link> */}
                     <h5 className="mb-4 p-2">{meeting.meetingTitle}</h5>
-                    <ProcessBotRecording botId={meeting.id} />
+                    <ProcessBotRecording
+                      botId={meeting.meetingBot.recallBotId!}
+                      disabled={meeting.meetingBot.transcriptRequested!}
+                    />
                   </Paper>
                 );
               })}

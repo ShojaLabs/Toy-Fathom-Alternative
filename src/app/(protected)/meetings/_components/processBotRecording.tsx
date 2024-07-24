@@ -1,13 +1,23 @@
-"use client"
-import React, { useState } from 'react';
+"use client";
+import React, { useState } from "react";
 import { Button } from "@mantine/core";
-import { analyseBotMedia, retrieveBotDetailsFromRecall } from "@/app/(protected)/meetings/_actions/meeting_bots";
+import {
+  analyseBotMedia,
+  retrieveBotDetailsFromRecall,
+} from "@/app/(protected)/meetings/_actions/meeting_bots";
 import { notifications } from "@mantine/notifications";
 
-function ProcessBotRecording({ botId }: { botId: string }) {
+function ProcessBotRecording({
+  botId,
+  disabled,
+}: {
+  botId: string;
+  disabled?: boolean;
+}) {
   const [loading, setLoading] = useState(false);
   return (
     <Button
+      disabled={disabled}
       variant="light"
       className="mx-2"
       loading={loading}
@@ -28,7 +38,7 @@ function ProcessBotRecording({ botId }: { botId: string }) {
             message: "Analysis started",
             color: "green",
           });
-          const analysisStatus = await analyseBotMedia(botId)
+          const analysisStatus = await analyseBotMedia(botId);
           if (!analysisStatus) {
             notifications.show({
               title: "Unable to start media analysis",
