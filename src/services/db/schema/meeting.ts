@@ -19,6 +19,7 @@ export const Meeting = pgTable(
     integrationId: uuid("integration_id").notNull(),
     userId: uuid("user_id").notNull(),
     meetingTitle: varchar("meeting_title", { length: 1024 }),
+    joinAt: timestamp("join_at").defaultNow(),
     // TODO - let's add meeting timing once we integrate calendar and have more info
     createdAt: timestamp("created_at").notNull().defaultNow(),
     updatedAt: timestamp("updated_at").notNull().defaultNow(),
