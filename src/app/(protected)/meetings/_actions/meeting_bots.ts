@@ -4,6 +4,8 @@ import Recall, { RecallApis } from "@/services/recall/apis";
 import { MeetingBot, MeetingBotTable } from "@/services/db/schema/meeting_bot";
 import db from "@/services/db";
 import { eq } from "drizzle-orm";
+import { revalidatePath } from "next/cache";
+import Paths from "@/constants/paths";
 
 export async function retrieveBotDetailsFromRecall(botId: string) {
   let status = false;
@@ -83,6 +85,7 @@ export async function analyseBotMedia(botId: string) {
   } catch (error: any) {
     console.error("Error in analysing bot media...\n", error?.response?.data);
   }
+  revalidatePath(Paths.dashboard.meetings());
   return status;
 }
 

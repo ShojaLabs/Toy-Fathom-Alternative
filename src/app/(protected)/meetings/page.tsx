@@ -4,9 +4,11 @@ import { eq } from "drizzle-orm";
 import { desc } from "drizzle-orm/sql/expressions/select";
 import dayjs from "dayjs";
 import React from "react";
-import { Paper } from "@mantine/core";
+import { Button, Paper } from "@mantine/core";
 import ProcessBotRecording from "@/app/(protected)/meetings/_components/processBotRecording";
 import { Meeting } from "@/services/db/schema/meeting";
+import Link from "next/link";
+import Paths from "@/constants/paths";
 
 export default async function Integrations() {
   const session = await server_GetUserSession();
@@ -52,7 +54,7 @@ export default async function Integrations() {
                 return (
                   <Paper
                     bg="dark.6"
-                    className="p-2 pb-4"
+                    className="p-4"
                     key={meeting.id}
                     withBorder
                   >
@@ -66,11 +68,22 @@ export default async function Integrations() {
                     <Link href={`/meetings/${meeting.botId}`}>
                       <Button variant="light">Details</Button>
                     </Link> */}
-                    <h5 className="mb-4 p-2">{meeting.meetingTitle}</h5>
-                    <ProcessBotRecording
-                      botId={meeting.meetingBot.recallBotId!}
-                      disabled={meeting.meetingBot.transcriptRequested!}
-                    />
+                    <h5 className="mb-4">{meeting.meetingTitle}</h5>
+                    {!meeting.meetingBot.transcriptRequested ? (
+                      <ProcessBotRecording
+                        botId={meeting.meetingBot.recallBotId!}
+                        disabled={meeting.meetingBot.transcriptRequested!}
+                      />
+                    ) : (
+                      <Link
+                        href={Paths.dashboard.meetingDetails(
+                          meeting.id,
+                          meeting.meetingBot.recallBotId,
+                        )}
+                      >
+                        <Button variant="outline">Details</Button>
+                      </Link>
+                    )}
                   </Paper>
                 );
               })}

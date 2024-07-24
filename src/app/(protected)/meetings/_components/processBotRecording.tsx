@@ -19,7 +19,7 @@ function ProcessBotRecording({
     <Button
       disabled={disabled}
       variant="light"
-      className="mx-2"
+      className=""
       loading={loading}
       onClick={async () => {
         setLoading(true);
