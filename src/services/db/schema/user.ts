@@ -1,9 +1,6 @@
-import {
-  pgTable,
-  varchar,
-  timestamp,
-  uuid,
-} from "drizzle-orm/pg-core";
+import { pgTable, varchar, timestamp, uuid } from "drizzle-orm/pg-core";
+import { Installation } from "./installation";
+import { relations } from "drizzle-orm";
 
 export const User = pgTable("user", {
   id: uuid("id").notNull().primaryKey(),
@@ -14,3 +11,9 @@ export const User = pgTable("user", {
 });
 
 export type UserTable = typeof User.$inferSelect;
+
+export const UserRelations = relations(User, ({ many }) => ({
+  installations: many(Installation, {
+    relationName: "user-installation",
+  }),
+}));

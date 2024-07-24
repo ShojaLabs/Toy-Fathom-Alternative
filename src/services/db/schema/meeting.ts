@@ -7,7 +7,8 @@ import {
   varchar,
 } from "drizzle-orm/pg-core";
 import { Installation } from "@/services/db/schema/installation";
-import { sql } from "drizzle-orm";
+import { relations, sql } from "drizzle-orm";
+import { MeetingBot } from "./meeting_bot";
 
 export const Meeting = pgTable(
   "meeting",
@@ -36,3 +37,16 @@ export const Meeting = pgTable(
 );
 
 export type MeetingTable = typeof Meeting.$inferSelect;
+
+export const MeetingRelations = relations(Meeting, ({ one }) => ({
+  installation: one(Installation, {
+    relationName: "installation-meeting",
+    fields: [Meeting.integrationId, Meeting.userId],
+    references: [Installation.integrationId, Installation.userId],
+  }),
+  meetingBot: one(MeetingBot, {
+    relationName: "meetingBot",
+    fields: [Meeting.id],
+    references: [MeetingBot.meetingId],
+  }),
+}));
