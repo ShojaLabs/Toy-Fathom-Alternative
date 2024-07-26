@@ -3,12 +3,16 @@ import {
   varchar,
   timestamp,
   uuid,
-  text, boolean,
+  text,
+  boolean,
 } from "drizzle-orm/pg-core";
-import { sql } from "drizzle-orm";
+import { relations, sql } from "drizzle-orm";
+import { Installation } from "./installation";
 
 export const Integration = pgTable("integration", {
-  id: uuid("id").default(sql`gen_random_uuid()`).primaryKey(),
+  id: uuid("id")
+    .default(sql`gen_random_uuid()`)
+    .primaryKey(),
   uId: varchar("u_id", { length: 512 }).notNull(),
   title: varchar("title", { length: 512 }).notNull(),
   description: text("description").notNull(),
@@ -21,3 +25,9 @@ export const Integration = pgTable("integration", {
 });
 
 export type IntegrationTable = typeof Integration.$inferSelect;
+
+export const IntegrationRelations = relations(Integration, ({ many }) => ({
+  installations: many(Installation, {
+    relationName: "integration-installation",
+  }),
+}));

@@ -26,6 +26,7 @@ export const MeetingBot = pgTable("meeting_bot", {
 
   transcriptProcessed: boolean("transcript_processed").default(false),
   transcriptRequested: boolean("transcript_requested").default(false), // requested by user (if this is true & transcript_processed is false; we may have to keep fetching the status from recall. In-case of error, reset this)
+  transcriptJobId: uuid("transcript_job_id"), // job id from recall (if transcript_requested is true)
 
   recallRecordingUrl: text("recall_recording_url"),
   retentionEnd: timestamp("retention_end"),
