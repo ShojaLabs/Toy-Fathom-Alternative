@@ -1,16 +1,11 @@
 import db from "@/services/db";
-import { server_GetUserSession } from "@/supertokens/utils";
-import { eq, or } from "drizzle-orm";
-import { desc } from "drizzle-orm/sql/expressions/select";
-import dayjs from "dayjs";
+import { eq } from "drizzle-orm";
 import React from "react";
-import { Button, Paper } from "@mantine/core";
-import ProcessBotRecording from "@/app/(protected)/meetings/_components/processBotRecording";
 import { Meeting } from "@/services/db/schema/meeting";
-import Link from "next/link";
 import Paths from "@/constants/paths";
-import { MeetingBot } from "@/services/db/schema/meeting_bot";
 import { Title } from "@/ui-components/Title";
+import TranscriptSync from "./transcriptSync";
+import { Code } from "@mantine/core";
 
 export default async function MeetingDetails({
   params: { id },
@@ -27,16 +22,45 @@ export default async function MeetingDetails({
         columns: {
           id: true,
           recallBotId: true,
+          transcriptProcessed: true,
+          transcriptRequested: true,
+          transcriptJobId: true,
+          transcript: true,
+          intelligence: true,
+          speakerTimeline: true,
         },
       },
     },
   });
-  let meetingBot = await db.query.MeetingBot.findFirst({
-    where: or(
-      eq(MeetingBot.id, meeting?.meetingBot.id!),
-      eq(MeetingBot.recallBotId, b!),
-    ),
-  });
 
-  return <Title>{meeting?.meetingTitle}</Title>;
+  const meetingDetailsUrl = Paths.dashboard.meetingDetails(
+    id,
+    meeting?.meetingBot?.recallBotId!,
+  );
+
+  return (
+    <div className="h-full">
+      <Title>{meeting?.meetingTitle}</Title>
+      {!meeting?.meetingBot?.transcriptProcessed && (
+        <TranscriptSync
+          id={id}
+          botId={meeting?.meetingBot?.recallBotId!}
+          meetingDetailsUrl={meetingDetailsUrl}
+        />
+      )}
+      {meeting?.meetingBot?.transcriptProcessed && (
+        <Code block className="h-full overflow-y-scroll">
+          {JSON.stringify(
+            {
+              transcript: meeting?.meetingBot?.transcript,
+              intelligence: meeting?.meetingBot?.intelligence,
+              speakerTimeline: meeting?.meetingBot?.speakerTimeline,
+            },
+            null,
+            2,
+          )}
+        </Code>
+      )}
+    </div>
+  );
 }
