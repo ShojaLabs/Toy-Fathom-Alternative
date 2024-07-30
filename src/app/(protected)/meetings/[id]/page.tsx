@@ -5,7 +5,7 @@ import { Meeting } from "@/services/db/schema/meeting";
 import Paths from "@/constants/paths";
 import { Title } from "@/ui-components/Title";
 import TranscriptSync from "./transcriptSync";
-import { Code } from "@mantine/core";
+import { Paper } from "@mantine/core";
 
 export default async function MeetingDetails({
   params: { id },
@@ -32,15 +32,13 @@ export default async function MeetingDetails({
       },
     },
   });
-
   const meetingDetailsUrl = Paths.dashboard.meetingDetails(
     id,
     meeting?.meetingBot?.recallBotId!,
   );
-
   return (
     <div className="h-full">
-      <Title>{meeting?.meetingTitle}</Title>
+      <Title className="pb-3 text-2xl">{meeting?.meetingTitle}</Title>
       {!meeting?.meetingBot?.transcriptProcessed && (
         <TranscriptSync
           id={id}
@@ -49,7 +47,7 @@ export default async function MeetingDetails({
         />
       )}
       {meeting?.meetingBot?.transcriptProcessed && (
-        <Code block className="h-full overflow-y-scroll">
+        <Paper className="h-full border p-2">
           {JSON.stringify(
             {
               transcript: meeting?.meetingBot?.transcript,
@@ -59,7 +57,7 @@ export default async function MeetingDetails({
             null,
             2,
           )}
-        </Code>
+        </Paper>
       )}
     </div>
   );
