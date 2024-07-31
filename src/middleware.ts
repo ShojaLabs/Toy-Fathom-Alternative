@@ -16,7 +16,10 @@ export async function middleware(
     request.headers.delete("x-user-id");
   }
 
-  if (request.nextUrl.pathname.startsWith("/api/v1/auth")) {
+  if (
+    request.nextUrl.pathname.startsWith("/api/v1/auth") ||
+    request.nextUrl.pathname.startsWith("/api/v1/hooks")
+  ) {
     /**
      * /api/auth/* endpoints are exposed by the SuperTokens SDK,
      * we do not want to modify the request for these routes
