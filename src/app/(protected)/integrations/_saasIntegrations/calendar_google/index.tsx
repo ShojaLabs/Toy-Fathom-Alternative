@@ -3,7 +3,11 @@ import InstallButton from "./installButton";
 
 export const dynamic = "force-dynamic";
 
-export async function ZoomAction({ installed }: { installed: boolean }) {
+export async function CalendarGoogleAction({
+  installed,
+}: {
+  installed: boolean;
+}) {
   try {
     if (installed) {
       console.log("Google Calendar is installed");

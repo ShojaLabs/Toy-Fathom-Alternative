@@ -130,7 +130,7 @@ export let backendConfig = (): TypeInput => {
                 // Check in the db if user with same email exists, if yes then return error.
                 let response = await originalImplementation.signInUp(input);
 
-                console.log("input", JSON.stringify(input));
+                // console.log("input", JSON.stringify(input));
                 if (response.status === "OK") {
                   if (input.session === undefined) {
                     if (

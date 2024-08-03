@@ -1,4 +1,4 @@
-"user server";
+"use server";
 import db from "@/services/db";
 import { CalendarOAuths } from "@/services/db/schema/calendar_oauth";
 import { Installation } from "@/services/db/schema/installation";
