@@ -6,7 +6,11 @@ import UserRoles from "supertokens-node/recipe/userroles";
 import { appInfo } from "./appInfo";
 import { TypeInput } from "supertokens-node/types";
 import SuperTokens from "supertokens-node";
-import { addNewUser } from "@/supertokens/_actions";
+import {
+  addNewUser,
+  installGoogleCalendar,
+  updateGoogleCalendar,
+} from "@/supertokens/_actions";
 
 export let backendConfig = (): TypeInput => {
   return {
@@ -39,7 +43,11 @@ export let backendConfig = (): TypeInput => {
 
                 let response = await originalImplementation.signUp(input);
 
-                if (response.status === "OK" && response.user.loginMethods.length === 1 && input.session === undefined) {
+                if (
+                  response.status === "OK" &&
+                  response.user.loginMethods.length === 1 &&
+                  input.session === undefined
+                ) {
                   // TODO: some post sign up logic
                   const { user } = response;
                   const { email } = input;
@@ -64,7 +72,7 @@ export let backendConfig = (): TypeInput => {
 
                 return response;
               },
-            }
+            };
           },
           // apis: (originalImplementation) => {
           //   return {
@@ -79,7 +87,7 @@ export let backendConfig = (): TypeInput => {
           //   }
           //
           // }
-        }
+        },
       }),
       ThirdPartyNode.init({
         signInAndUpFeature: {
@@ -122,25 +130,38 @@ export let backendConfig = (): TypeInput => {
                 // Check in the db if user with same email exists, if yes then return error.
                 let response = await originalImplementation.signInUp(input);
 
+                console.log("input", JSON.stringify(input));
                 if (response.status === "OK") {
                   if (input.session === undefined) {
-                    if (response.createdNewRecipeUser && response.user.loginMethods.length === 1) {
+                    if (
+                      response.createdNewRecipeUser &&
+                      response.user.loginMethods.length === 1
+                    ) {
                       // POST Sign Up Logic
                       const { user } = response;
                       const { thirdPartyId, email } = input;
                       // console.log(JSON.stringify(rawUserInfoFromProvider))
                       await addNewUser(user.id, email, thirdPartyId);
+                      if (thirdPartyId === "google") {
+                        installGoogleCalendar(user.id, input);
+                      }
                     } else {
                       // POST Sign IN Logic
+                      // TODO: update the calendar
+                      const { user } = response;
+                      const { thirdPartyId } = input;
+                      if (thirdPartyId === "google") {
+                        updateGoogleCalendar(user.id, input);
+                      }
                     }
                   }
                 }
 
                 return response;
-              }
-            }
-          }
-        }
+              },
+            };
+          },
+        },
       }),
       SessionNode.init(),
       Dashboard.init(),

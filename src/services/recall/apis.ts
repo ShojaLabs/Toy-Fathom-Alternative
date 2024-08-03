@@ -23,4 +23,7 @@ export const RecallApis = {
   get_BotLogs: (id: string) => `v1/bot/${id}/logs/`,
   get_BotSpeakerTimeline: (id: string) => `v1/bot/${id}/speaker_timeline/`,
   get_BotIntelligence: (id: string) => `v1/bot/${id}/intelligence/`, // send summary & other cool things
+
+  post_createCalendar: () => "v2/calendars/",
+  delete_calendar: (id: string) => `v2/calendars/${id}`,
 };
