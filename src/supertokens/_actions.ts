@@ -1,6 +1,6 @@
 import { User } from "@/services/db/schema/user";
 import db from "@/services/db";
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import Recall, { RecallApis } from "@/services/recall/apis";
 import { Integration } from "@/services/db/schema/integration";
 import { Installation } from "@/services/db/schema/installation";
@@ -59,4 +59,46 @@ export async function installGoogleCalendar(userId: string, input: any) {
   }
 }
 
-export async function updateGoogleCalendar(userId: string, input: any) {}
+export async function updateGoogleCalendar(userId: string, input: any) {
+  // get installation for userId and calendar_google
+  // if present update the recall calendar & update the CalendarOAuths table
+  // if not install the calendar.
+  const integration = await db.query.Integration.findFirst({
+    where: eq(Integration.uId, "CALENDAR_GOOGLE"),
+  });
+  const integrationId = integration?.id;
+  const calendarOAuth = await db.query.CalendarOAuths.findFirst({
+    where: and(
+      eq(CalendarOAuths.userId, userId),
+      eq(CalendarOAuths.integrationId, integrationId!),
+    ),
+  });
+  let recallData: any;
+  if (calendarOAuth?.id) {
+    try {
+      recallData = await Recall.patch(
+        RecallApis.update_calendar(calendarOAuth.recallId),
+        {
+          oauth_client_id: process.env.AUTH_GOOGLE_CLIENT_ID,
+          oauth_client_secret: process.env.AUTH_GOOGLE_CLIENT_SECRET,
+          oauth_refresh_token: input.oAuthTokens.refresh_token,
+          platform: "google_calendar",
+          oauth_email: input.email,
+        },
+      );
+      await db
+        .update(CalendarOAuths)
+        .set({
+          calendarUserId: input.thirdPartyUserId! as string,
+          accessToken: input.oAuthTokens.access_token,
+          refreshToken: input.oAuthTokens.refresh_token,
+          metadata: recallData.data,
+        })
+        .where(eq(CalendarOAuths.id, calendarOAuth.id));
+    } catch (error) {
+      console.error("Error updating Google Calendar", error);
+    }
+  } else {
+    await installGoogleCalendar(userId, input);
+  }
+}

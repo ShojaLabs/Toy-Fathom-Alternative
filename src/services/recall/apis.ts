@@ -26,4 +26,5 @@ export const RecallApis = {
 
   post_createCalendar: () => "v2/calendars/",
   delete_calendar: (id: string) => `v2/calendars/${id}`,
+  update_calendar: (id: string) => `v2/calendars/${id}`,
 };
