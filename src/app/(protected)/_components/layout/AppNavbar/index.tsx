@@ -37,6 +37,7 @@ export default function AppNavbar() {
 
   const collectionLinks = Object.keys(appNavItems).map((rk) => {
     const item = appNavItems[rk];
+    if (item.disable) return;
     return <NavItem {...item} key={rk} />;
   });
 

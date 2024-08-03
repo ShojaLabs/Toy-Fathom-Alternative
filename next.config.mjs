@@ -1,14 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // async redirects() {
-  //   return [
-  //     {
-  //       source: "/",
-  //       destination: "/dashboard/",
-  //       permanent: false,
-  //     },
-  //   ];
-  // },
+  async redirects() {
+    return [
+      {
+        source: "/",
+        destination: "/meetings",
+        permanent: false,
+      },
+    ];
+  },
   // async headers() {
   //   return [
   //     {
