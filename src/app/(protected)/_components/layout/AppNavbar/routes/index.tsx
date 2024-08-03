@@ -1,12 +1,10 @@
 import {
   Icon,
   IconBrandZoom,
-  IconMailbox,
   IconMessageDots,
   IconNews,
   IconPlugConnected,
   IconProps,
-  IconTopologyStarRing3,
 } from "@tabler/icons-react";
 import { ForwardRefExoticComponent, RefAttributes } from "react";
 
@@ -14,6 +12,7 @@ export type NavItemType = {
   path: string;
   icon: ForwardRefExoticComponent<IconProps & RefAttributes<Icon>>;
   label: string;
+  disable?: boolean;
 };
 
 export type AppNavItemsType = {
@@ -25,11 +24,13 @@ const appNavItems: AppNavItemsType = {
     path: "/",
     icon: IconNews,
     label: "Home",
+    disable: true,
   },
   messages: {
     path: "/messages",
     icon: IconMessageDots,
     label: "Messages",
+    disable: true,
   },
   meetings: {
     path: "/meetings",
