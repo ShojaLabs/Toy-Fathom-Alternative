@@ -7,6 +7,7 @@ import * as installation from "./schema/installation";
 import * as zoom_oauth from "./schema/zoom_oauth";
 import * as meeting from "./schema/meeting";
 import * as meeting_bot from "./schema/meeting_bot";
+import * as calendar_oauth from "./schema/calendar_oauth";
 
 // for query purposes
 const queryClient = postgres(process.env.APP_DB_URL!);
@@ -18,6 +19,7 @@ const db = drizzle(queryClient, {
     ...zoom_oauth,
     ...meeting,
     ...meeting_bot,
+    ...calendar_oauth,
   },
 });
 

@@ -1,27 +1,7 @@
+import { ConnectedBanner, UnknownBanner } from "../_componenets/statusBanners";
 import ZoomInstallButton from "./zoomInstallButton";
-import {
-  IconAlertTriangleFilled,
-  IconCircleCheckFilled,
-} from "@tabler/icons-react";
 
 export const dynamic = "force-dynamic";
-
-function ConnectedBanner() {
-  return (
-    <div className="flex gap-1 justify-center text-green-600">
-      <IconCircleCheckFilled size={24} />
-      Connected
-    </div>
-  );
-}
-
-function UnknownBanner() {
-  return (
-    <div className="flex gap-1 justify-center text-orange-400">
-      <IconAlertTriangleFilled size={24} /> Unknown please, refresh!
-    </div>
-  );
-}
 
 export async function ZoomAction({ installed }: { installed: boolean }) {
   try {

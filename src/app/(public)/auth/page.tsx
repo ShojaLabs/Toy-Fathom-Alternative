@@ -22,6 +22,7 @@ import { signUp, signIn } from "supertokens-web-js/recipe/emailpassword";
 import { notifications } from "@mantine/notifications";
 import Session from "supertokens-web-js/recipe/session";
 import { getAuthorisationURLWithQueryParamsAndSetState } from "supertokens-web-js/recipe/thirdparty";
+import { getGoogleOauthUrl } from "./helprs";
 
 export default function AuthenticationForm(props: PaperProps) {
   const router = useRouter();
@@ -201,7 +202,7 @@ export default function AuthenticationForm(props: PaperProps) {
 
   async function socialLogin(thirdPartyId: "google" | "github") {
     try {
-      const authUrl = await getAuthorisationURLWithQueryParamsAndSetState({
+      let authUrl = await getAuthorisationURLWithQueryParamsAndSetState({
         thirdPartyId,
 
         // This is where Google should redirect the user back after login or error.
@@ -214,6 +215,9 @@ export default function AuthenticationForm(props: PaperProps) {
       Example value of authUrl: https://accounts.google.com/o/oauth2/v2/auth/oauthchooseaccount?scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email&access_type=offline&include_granted_scopes=true&response_type=code&client_id=1060725074195-kmeum4crr01uirfl2op9kd5acmi9jutn.apps.googleusercontent.com&state=5a489996a28cafc83ddff&redirect_uri=https%3A%2F%2Fsupertokens.io%2Fdev%2Foauth%2Fredirect-to-app&flowName=GeneralOAuthFlow
       */
 
+      if (thirdPartyId === "google") {
+        authUrl = getGoogleOauthUrl(authUrl);
+      }
       router.push(authUrl);
     } catch (err: any) {
       if (err.isSuperTokensGeneralError === true) {

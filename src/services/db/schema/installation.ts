@@ -4,6 +4,7 @@ import { Integration } from "./integration";
 import { relations } from "drizzle-orm";
 import { ZoomOAuth } from "./zoom_oauth";
 import { Meeting } from "./meeting";
+import { CalendarOAuths } from "./calendar_oauth";
 
 // Stores which integrations are available in the platform
 export const Installation = pgTable(
@@ -44,6 +45,11 @@ export const InstallationRelations = relations(
       relationName: "installation-zoomoauth",
       fields: [Installation.integrationId, Installation.userId],
       references: [ZoomOAuth.integrationId, ZoomOAuth.userId],
+    }),
+    calendarOAuth: one(CalendarOAuths, {
+      relationName: "installation-calendaroauth",
+      fields: [Installation.integrationId, Installation.userId],
+      references: [CalendarOAuths.integrationId, CalendarOAuths.userId],
     }),
     meetings: many(Meeting, {
       relationName: "installation-meeting",
