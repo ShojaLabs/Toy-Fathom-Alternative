@@ -17,9 +17,7 @@ export const CalendarOAuths = pgTable(
       .notNull()
       .primaryKey()
       .default(sql`gen_random_uuid()`),
-    calendarUserId: varchar("calendar_user_id", { length: 512 })
-      .notNull()
-      .unique(),
+
     integrationId: uuid("integration_id").notNull(),
     userId: uuid("user_id").notNull(),
 
