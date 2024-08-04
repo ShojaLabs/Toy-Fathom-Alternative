@@ -5,6 +5,8 @@ import {
   foreignKey,
   text,
   varchar,
+  json,
+  boolean,
 } from "drizzle-orm/pg-core";
 import { Installation } from "@/services/db/schema/installation";
 import { relations, sql } from "drizzle-orm";
@@ -24,6 +26,15 @@ export const Meeting = pgTable(
     // TODO - let's add meeting timing once we integrate calendar and have more info
     createdAt: timestamp("created_at").notNull().defaultNow(),
     updatedAt: timestamp("updated_at").notNull().defaultNow(),
+
+    recallId: uuid("recall_id"),
+    status: varchar("status", { length: 50 }),
+    calPlatform: varchar("cal_platform", { length: 50 }),
+    meetingPlatform: varchar("meeting_platform", { length: 50 }),
+    metadata: json("metadata"),
+    isDeleted: boolean("is_deleted").default(false),
+    isRecurring: boolean("is_recurring").default(false),
+    iCalUid: varchar("ical_uid", { length: 1024 }),
   },
   (table) => {
     return {
