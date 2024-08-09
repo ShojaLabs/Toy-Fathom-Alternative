@@ -2,7 +2,12 @@ import { NextRequest, NextResponse } from "next/server";
 import JsonWebToken from "jsonwebtoken";
 import jws from "jws";
 import jwksClient from "jwks-rsa";
-import { analyseBotMedia, storeTranscriptData } from "./actions";
+import {
+  analyseBotMedia,
+  storeTranscriptData,
+  syncCaleandarEvents,
+  updateCalendar,
+} from "./actions";
 
 const client = jwksClient({
   jwksUri: `${process.env.NEXT_PUBLIC_SUPERTOKENS_WEBSITE_DOMAIN}${process.env.NEXT_PUBLIC_SUPERTOKENS_API_BASE_PATH}/jwt/jwks.json`,
@@ -30,6 +35,8 @@ export async function POST(request: NextRequest) {
       console.log("request", body);
 
       const { data, event } = body;
+
+      // Handle Bot Web Hooks
       if (event === "bot.status_change") {
         const { bot_id, status } = data;
         if (status.code == "done") {
@@ -38,6 +45,16 @@ export async function POST(request: NextRequest) {
           storeTranscriptData(bot_id);
         }
       }
+      // Handle Calendar Web Hooks
+      else if (event === "calendar.sync_events") {
+        const { calendar_id, last_updated_ts } = data;
+        console.log("calendar synced", calendar_id, last_updated_ts);
+        syncCaleandarEvents(calendar_id, last_updated_ts);
+      } else if (event === "calendar.update") {
+        const { calendar_id } = data;
+        updateCalendar(calendar_id);
+      }
+
       return NextResponse.json({ success: "Hook executed" }, { status: 200 });
     }
   } catch (e) {
