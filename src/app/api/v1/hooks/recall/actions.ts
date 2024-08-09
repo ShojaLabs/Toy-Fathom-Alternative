@@ -53,6 +53,7 @@ export async function analyseBotMedia(botId: string) {
       .set({
         transcriptRequested: true,
         transcriptJobId: data.job_id,
+        notFound: false,
       })
       .where(eq(MeetingBot.recallBotId, botId));
     status = true;
@@ -86,6 +87,7 @@ export async function storeTranscriptData(botId: string) {
       logs: logs.value.data,
       intelligence: intelligence.value.data,
       speakerTimeline: speakerTimeline.value.data,
+      notFound: false,
     })
     .where(eq(MeetingBot.recallBotId, botId));
 }

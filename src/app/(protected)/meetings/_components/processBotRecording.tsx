@@ -24,36 +24,44 @@ function ProcessBotRecording({
       onClick={async () => {
         setLoading(true);
         console.log("Retrieving Bot Details and Starting Analysis...");
-        let retrieveStatus = await retrieveBotDetailsFromRecall(botId);
-        if (!retrieveStatus) {
-          notifications.show({
-            title: "Unable to retrieve bot information",
-            message: "Please try again",
-            color: "red",
-          });
-          setLoading(false);
-        } else {
-          notifications.show({
-            title: "Bot information retrieved successfully",
-            message: "Analysis started",
-            color: "green",
-          });
-          const analysisStatus = await analyseBotMedia(botId);
-          if (!analysisStatus) {
+        if (botId) {
+          let retrieveStatus = await retrieveBotDetailsFromRecall(botId);
+          if (!retrieveStatus) {
             notifications.show({
-              title: "Unable to start media analysis",
+              title: "Unable to retrieve bot information",
               message: "Please try again",
               color: "red",
             });
+            setLoading(false);
           } else {
             notifications.show({
-              title: "Media analysis started successfully",
-              message: "You will be notified once it's finished",
+              title: "Bot information retrieved successfully",
+              message: "Analysis started",
               color: "green",
             });
+            const analysisStatus = await analyseBotMedia(botId);
+            if (!analysisStatus) {
+              notifications.show({
+                title: "Unable to start media analysis",
+                message: "Please try again",
+                color: "red",
+              });
+            } else {
+              notifications.show({
+                title: "Media analysis started successfully",
+                message: "You will be notified once it's finished",
+                color: "green",
+              });
+            }
           }
-          setLoading(false);
+        } else {
+          notifications.show({
+            title: "Bot recording not found",
+            message: "Failed!",
+            color: "red",
+          });
         }
+        setLoading(false);
       }}
     >
       Process

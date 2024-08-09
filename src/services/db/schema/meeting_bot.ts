@@ -13,7 +13,7 @@ export const MeetingBot = pgTable("meeting_bot", {
   id: uuid("id") // local id
     .default(sql`gen_random_uuid()`)
     .primaryKey(),
-  recallBotId: uuid("recall_bot_id").notNull(), // bot id from recall
+  recallBotId: uuid("recall_bot_id").unique().notNull(), // bot id from recall
   meetingId: uuid("meeting_id")
     .notNull()
     .references(() => Meeting.id),
@@ -33,6 +33,8 @@ export const MeetingBot = pgTable("meeting_bot", {
   recordingUrl: text("recording_url"), // recording url shoja
 
   joinAt: timestamp("join_at").defaultNow(),
+
+  notFound: boolean("not_found").default(false),
 
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at").notNull().defaultNow(),

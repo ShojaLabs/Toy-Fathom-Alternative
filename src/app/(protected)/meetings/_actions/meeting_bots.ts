@@ -1,7 +1,7 @@
 "use server";
 
 import Recall, { RecallApis } from "@/services/recall/apis";
-import { MeetingBot, MeetingBotTable } from "@/services/db/schema/meeting_bot";
+import { MeetingBot } from "@/services/db/schema/meeting_bot";
 import db from "@/services/db";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
@@ -9,6 +9,14 @@ import Paths from "@/constants/paths";
 
 export async function retrieveBotDetailsFromRecall(botId: string) {
   let status = false;
+  const bot = await db.query.MeetingBot.findFirst({
+    where: eq(MeetingBot.recallBotId, botId),
+    columns: {
+      id: true,
+      recallBotId: true,
+      joinAt: true,
+    },
+  });
   try {
     const { data } = await Recall.get(RecallApis.get_Bot(botId));
 
@@ -31,6 +39,17 @@ export async function retrieveBotDetailsFromRecall(botId: string) {
       "Error in retrieving bot details from recall...\n",
       error?.response?.data,
     );
+
+    if (error?.response?.status == 404) {
+      console.log("[INFO] Bot doesn't have recorings yet");
+
+      await db
+        .update(MeetingBot)
+        .set({
+          notFound: true,
+        })
+        .where(eq(MeetingBot.recallBotId, botId));
+    }
   }
   return status;
 }
