@@ -25,6 +25,17 @@ export const RecallApis = {
   get_BotIntelligence: (id: string) => `v1/bot/${id}/intelligence/`, // send summary & other cool things
 
   post_createCalendar: () => "v2/calendars/",
+  get_calendar: (id: string) => `v2/calendars/${id}`,
   delete_calendar: (id: string) => `v2/calendars/${id}`,
   update_calendar: (id: string) => `v2/calendars/${id}`,
+
+  list_calendar_events: (id: string, lastUpdated: string) => {
+    const params = new URLSearchParams();
+    params.append("calendar_id", id);
+    params.append("updated_at__gte", lastUpdated);
+    const url = `v2/calendar-events/?${params.toString()}`;
+    return url;
+  },
+  schedule_bot: (id: string) => `v2/calendar-events/${id}/bot`,
+  delete_bot: (id: string) => `v2/calendar-events/${id}/bot`,
 };
