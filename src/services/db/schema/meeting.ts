@@ -27,7 +27,7 @@ export const Meeting = pgTable(
     createdAt: timestamp("created_at").notNull().defaultNow(),
     updatedAt: timestamp("updated_at").notNull().defaultNow(),
 
-    recallId: uuid("recall_id"),
+    recallId: uuid("recall_id").unique(),
     status: varchar("status", { length: 50 }),
     calPlatform: varchar("cal_platform", { length: 50 }),
     meetingPlatform: varchar("meeting_platform", { length: 50 }),

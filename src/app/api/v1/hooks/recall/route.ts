@@ -5,7 +5,7 @@ import jwksClient from "jwks-rsa";
 import {
   analyseBotMedia,
   storeTranscriptData,
-  syncCaleandarEvents,
+  syncCalendarEvents,
   updateCalendar,
 } from "./actions";
 
@@ -49,7 +49,7 @@ export async function POST(request: NextRequest) {
       else if (event === "calendar.sync_events") {
         const { calendar_id, last_updated_ts } = data;
         console.log("calendar synced", calendar_id, last_updated_ts);
-        syncCaleandarEvents(calendar_id, last_updated_ts);
+        syncCalendarEvents(calendar_id, last_updated_ts);
       } else if (event === "calendar.update") {
         const { calendar_id } = data;
         updateCalendar(calendar_id);

@@ -1,6 +1,6 @@
 import db from "@/services/db";
 import { server_GetUserSession } from "@/supertokens/utils";
-import { eq } from "drizzle-orm";
+import { eq, lte, and } from "drizzle-orm";
 import { desc } from "drizzle-orm/sql/expressions/select";
 import dayjs from "dayjs";
 import React from "react";
@@ -16,13 +16,18 @@ export default async function Integrations() {
   // TODO: Paginate
   // TODO: Only fetch bots that are done recording (joinAt < today || null)
   let meetings = await db.query.Meeting.findMany({
-    where: eq(Meeting.userId, userId!),
+    where: and(
+      eq(Meeting.userId, userId!),
+      lte(Meeting.joinAt, new Date()),
+      eq(Meeting.isDeleted, false),
+    ),
     orderBy: [desc(Meeting.joinAt)],
     with: {
       meetingBot: {
         columns: {
           recallBotId: true,
           transcriptRequested: true,
+          notFound: true,
         },
       },
     },
@@ -30,6 +35,12 @@ export default async function Integrations() {
   let categorisedByDay: {
     [day: string]: typeof meetings;
   } = {};
+  meetings = meetings.filter(
+    (mt) => !!mt.meetingBot && !mt.meetingBot.notFound,
+  );
+  console.log("[DATA] Found meetings", {
+    meetings: meetings.map((m: any) => m.meetingBot),
+  });
   meetings.forEach((meeting) => {
     const day = meeting.joinAt
       ? dayjs(meeting.joinAt).format("MMM DD, YYYY")
@@ -68,17 +79,19 @@ export default async function Integrations() {
                     <Link href={`/meetings/${meeting.botId}`}>
                       <Button variant="light">Details</Button>
                     </Link> */}
-                    <h5 className="mb-4">{meeting.meetingTitle}</h5>
-                    {!meeting.meetingBot.transcriptRequested ? (
+                    <h5 className="mb-4">
+                      {meeting.meetingTitle} {meeting.meetingBot.notFound}
+                    </h5>
+                    {!meeting?.meetingBot?.transcriptRequested ? (
                       <ProcessBotRecording
-                        botId={meeting.meetingBot.recallBotId!}
-                        disabled={meeting.meetingBot.transcriptRequested!}
+                        botId={meeting.meetingBot?.recallBotId!}
+                        disabled={meeting.meetingBot?.transcriptRequested!}
                       />
                     ) : (
                       <Link
                         href={Paths.dashboard.meetingDetails(
                           meeting.id,
-                          meeting.meetingBot.recallBotId,
+                          meeting.meetingBot?.recallBotId,
                         )}
                       >
                         <Button variant="outline">Details</Button>
