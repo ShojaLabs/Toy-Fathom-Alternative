@@ -1,4 +1,4 @@
-import { sql } from "drizzle-orm";
+import { relations, sql } from "drizzle-orm";
 import {
   pgTable,
   timestamp,
@@ -39,3 +39,11 @@ export const MeetingBot = pgTable("meeting_bot", {
 });
 
 export type MeetingBotTable = typeof MeetingBot.$inferSelect;
+
+export const MeetingBotRelations = relations(MeetingBot, ({ one }) => ({
+  meeting: one(Meeting, {
+    relationName: "meetingBot",
+    fields: [MeetingBot.meetingId],
+    references: [Meeting.id],
+  }),
+}));
