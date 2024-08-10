@@ -9,7 +9,7 @@ import { getAccessToken } from "./utils";
 
 const client = jwksClient({
   jwksUri:
-    process.env.NEXT_PUBLIC_SUPERTOKENS_CONNECTION_URI +
+    process.env.SUPERTOKENS_CONNECTION_URI +
     "/.well-known/jwks.json",
 });
 
