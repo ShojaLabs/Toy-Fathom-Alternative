@@ -9,7 +9,6 @@ import {
   Text,
   Paper,
   Group,
-  PaperProps,
   Button,
   Divider,
   Checkbox,
@@ -24,7 +23,7 @@ import Session from "supertokens-web-js/recipe/session";
 import { getAuthorisationURLWithQueryParamsAndSetState } from "supertokens-web-js/recipe/thirdparty";
 import { getGoogleOauthUrl } from "./helprs";
 
-export default function AuthenticationForm(props: PaperProps) {
+export default function AuthenticationForm() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [type, toggle] = useToggle(["login", "register"]);
@@ -238,7 +237,7 @@ export default function AuthenticationForm(props: PaperProps) {
   }
 
   return (
-    <Paper className="max-w-lg mx-auto mt-48 p-6" withBorder {...props}>
+    <Paper className="max-w-lg mx-auto mt-48 p-6" withBorder>
       <h1 className="text-5xl font-bold text-center">Welcome to Shoja!</h1>
 
       <Group grow mb="md" className="mt-12">

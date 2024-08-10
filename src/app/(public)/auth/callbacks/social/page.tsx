@@ -63,7 +63,7 @@ function usePageLoadEffect() {
           router.replace("/auth");
         }
       });
-  }, []); // Empty dependency array means this effect will only run once (on page load)
+  }, [router]); // Empty dependency array means this effect will only run once (on page load)
 }
 
 function HandleCallback() {
