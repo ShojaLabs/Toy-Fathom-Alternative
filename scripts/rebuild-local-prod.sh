@@ -1,5 +1,5 @@
-docker compose down &&
-  rm -rf stacks/db_data &&
-  mkdir stacks/db_data &&
-  docker compose --env-file .env.production build &&
-  docker compose --env-file .env.production up -d
+docker compose -f docker/prod/docker-compose.yml down &&
+  # rm -rf ./stacks/prod_db_data &&
+  # mkdir ./stacks/prod_db_data &&
+  docker compose -f docker/prod/docker-compose.yml --env-file .env build &&
+  docker compose -f docker/prod/docker-compose.yml --env-file .env up -d

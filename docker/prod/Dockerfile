@@ -14,7 +14,7 @@ WORKDIR /app
 
 # Install dependencies based on the preferred package manager
 COPY package.json pnpm-lock.yaml* ./
-COPY ./scripts ./scripts
+COPY scripts ./scripts
 RUN \
   if [ -f pnpm-lock.yaml ]; then pnpm i --frozen-lockfile --recursive; \
   else echo "Lockfile not found." && exit 1; \
