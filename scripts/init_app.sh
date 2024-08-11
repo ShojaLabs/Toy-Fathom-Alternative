@@ -1,7 +1,9 @@
 #!/usr/bin/env sh
 set -eou pipefail
 
-echo "Creating Database..."
+pnpm add drizzle-orm postgres & PID=$!
+wait $PID
+
 pnpm dbm:prod & PID=$!
 wait $PID
 
