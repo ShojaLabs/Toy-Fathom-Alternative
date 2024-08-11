@@ -1,8 +1,9 @@
-version: "3"
-
 services:
   # Note: If you are assigning a custom name to your db service on the line below, make sure it does not contain underscores
   db:
+    env_file:
+      - path: ./.env.production
+        required: true
     image: "postgres:latest"
     environment:
       POSTGRES_USER: ${DB_USER}
@@ -17,12 +18,15 @@ services:
       test: ["CMD", "pg_isready", "-U", "${DB_USER}", "-d", "${AUTH_DB}"]
       interval: 5s
       timeout: 5s
-      retries: 5
+      retries: 10
     volumes:
       - ./scripts/init_db.sh:/docker-entrypoint-initdb.d/entrypoint.sh
       - pgdata:/var/lib/postgresql/data
 
   supertokens:
+    env_file:
+      - path: ./.env.production
+        required: true
     image: registry.supertokens.io/supertokens/supertokens-postgresql:9.0.2
     depends_on:
       db:
@@ -31,6 +35,7 @@ services:
       - 3567:3567
     environment:
       POSTGRESQL_CONNECTION_URI: "postgresql://${DB_USER}:${DB_PASSWORD}@db:5432/${AUTH_DB}"
+      NODE_ENV: "production"
     networks:
       - app_network
     restart: unless-stopped
@@ -40,6 +45,26 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+
+  app:
+    env_file:
+      - path: ./.env.production
+        required: true
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      NODE_ENV: "production"
+      SUPERTOKENS_CONNECTION_URI: "http://supertokens:3567"
+      APP_DB_URL: "postgresql://${DB_USER}:${DB_PASSWORD}@db:5432/${APP_DB}"
+    image: app
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - app_network
+    ports:
+      - 3000:3000
 
 networks:
   app_network:
