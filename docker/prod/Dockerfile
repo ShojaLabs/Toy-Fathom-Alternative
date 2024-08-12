@@ -12,6 +12,7 @@ FROM base AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
+COPY ./migration-store ./migration-store
 # Install dependencies based on the preferred package manager
 COPY package.json pnpm-lock.yaml* ./
 COPY scripts ./scripts
@@ -64,7 +65,7 @@ COPY --from=builder /app/.next/cache ./.next/cache
 COPY --from=deps /app/scripts ./scripts
 
 # Move the drizzle directory to the runtime image
-COPY --from=builder /app/src/services/db ./db
+COPY --from=deps /app/migration-store ./migration-store
 
 # USER nextjs
 EXPOSE 3000
