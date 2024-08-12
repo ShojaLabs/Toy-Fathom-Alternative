@@ -1,0 +1,56 @@
+# SUPERTOKENS
+
+NEXT_PUBLIC_SUPERTOKENS_APP_NAME=Shoja.ai
+NEXT_PUBLIC_SUPERTOKENS_API_DOMAIN=https://app.shoja.ai/api/v1
+NEXT_PUBLIC_SUPERTOKENS_WEBSITE_DOMAIN=https://app.shoja.ai
+NEXT_PUBLIC_SUPERTOKENS_API_BASE_PATH=/api/v1/auth
+NEXT_PUBLIC_SUPERTOKENS_WEBSITE_BASE_PATH=/auth
+
+SUPERTOKENS_CONNECTION_URI=
+
+
+# SOCIAL AUTHs
+
+AUTH_GITHUB_CLIENT_ID=
+AUTH_GITHUB_CLIENT_SECRET=
+
+AUTH_GOOGLE_CLIENT_ID=
+AUTH_GOOGLE_CLIENT_SECRET=
+
+NEXT_PUBLIC_AUTH_SOCIAL_CALLBACK=
+
+
+# DB -------------------------------------
+
+AUTH_DB=auth
+APP_DB=app
+
+DB_HOST="localhost"
+DB_USER=user
+DB_PASSWORD=password
+INIT_DB_LIST="${AUTH_DB},${APP_DB}"
+
+# APP_DB_URL="postgres://user:password@db:5432/app"
+
+
+# INTEGRATIONS -------------------------------------
+
+# 0. Recall AI
+RECALL_API_BASE_PATH=
+RECALL_API_KEY=
+RECALL_ZOOM_OAUTH_APP_ID=
+
+# 1. Google Calendar
+NEXT_PUBLIC_INTEGRATION_GOOGLE_CALENDAR_CALLBACK=https://app.shoja.ai/integrations/callbacks/google
+
+# 2. Zoom APP
+NEXT_PUBLIC_ZOOM_CLIENT_ID=
+ZOOM_CLIENT_SECRET=
+ZOOM_WEBHOOK_SECRET=
+NEXT_PUBLIC_ZOOM_REDIRECT_URL=https://app.shoja.ai/integrations/callbacks/zoom
+
+
+# SERVICES -----------------------------------------
+
+# Transcription API
+ASSEMBLY_AI_API_KEY=

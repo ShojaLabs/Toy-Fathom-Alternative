@@ -16,7 +16,7 @@ export let backendConfig = (): TypeInput => {
   return {
     supertokens: {
       // this is the location of the SuperTokens core.
-      connectionURI: process.env.NEXT_PUBLIC_SUPERTOKENS_CONNECTION_URI!,
+      connectionURI: process.env.SUPERTOKENS_CONNECTION_URI!,
     },
     appInfo,
     // recipeList contains all the modules that you want to
