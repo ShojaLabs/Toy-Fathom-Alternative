@@ -12,7 +12,7 @@ local-prod-up:
 
 .PHONY: local-prod-down
 local-prod-down:
-	docker compose -f docker/prod/docker-compose.yml --env-file .env down
+	docker compose -f docker/local-prod/docker-compose.yml --env-file .env down
 
 .PHONY: build-prod
 build-prod:

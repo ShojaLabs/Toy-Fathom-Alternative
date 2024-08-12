@@ -1,9 +1,7 @@
 services:
   # Note: If you are assigning a custom name to your db service on the line below, make sure it does not contain underscores
   db:
-    env_file:
-      - path: ./.env.production
-        required: true
+    env_file: "./../../.env"
     image: "postgres:latest"
     environment:
       POSTGRES_USER: ${DB_USER}
@@ -20,13 +18,11 @@ services:
       timeout: 5s
       retries: 10
     volumes:
-      - ./scripts/init_db.sh:/docker-entrypoint-initdb.d/entrypoint.sh
-      - pgdata:/var/lib/postgresql/data
+      - ./../../scripts/init_db.sh:/docker-entrypoint-initdb.d/entrypoint.sh
+      - prod_pgdata:/var/lib/postgresql/data
 
   supertokens:
-    env_file:
-      - path: ./.env.production
-        required: true
+    env_file: "./../../.env"
     image: registry.supertokens.io/supertokens/supertokens-postgresql:9.0.2
     depends_on:
       db:
@@ -35,7 +31,6 @@ services:
       - 3567:3567
     environment:
       POSTGRESQL_CONNECTION_URI: "postgresql://${DB_USER}:${DB_PASSWORD}@db:5432/${AUTH_DB}"
-      NODE_ENV: "production"
     networks:
       - app_network
     restart: unless-stopped
@@ -47,14 +42,11 @@ services:
       retries: 5
 
   app:
-    env_file:
-      - path: ./.env.production
-        required: true
+    env_file: "./../../.env"
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ../../
+      dockerfile: docker/local-prod/Dockerfile
     environment:
-      NODE_ENV: "production"
       SUPERTOKENS_CONNECTION_URI: "http://supertokens:3567"
       APP_DB_URL: "postgresql://${DB_USER}:${DB_PASSWORD}@db:5432/${APP_DB}"
     image: app
@@ -71,9 +63,9 @@ networks:
     driver: bridge
 
 volumes:
-  pgdata:
+  prod_pgdata:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: ./stacks/db_data
+      device: ./../../stacks/prod_db_data
