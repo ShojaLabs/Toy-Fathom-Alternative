@@ -1,0 +1,15 @@
+{
+  "name": "migration-store",
+  "version": "1.0.0",
+  "description": "",
+  "main": "run.mjs",
+  "scripts": {
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "drizzle-orm": "^0.33.0",
+    "postgres": "^3.4.4"
+  }
+}

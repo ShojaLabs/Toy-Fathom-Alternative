@@ -10,7 +10,6 @@
     "studio": "drizzle-kit studio",
     "dbg": "drizzle-kit generate",
     "dbm": "drizzle-kit migrate",
-    "dbm:prod": "node /app/db/migrate.mjs",
     "dbpull": "drizzle-kit introspect",
     "dbpush": "drizzle-kit push",
     "dbmdrop": "drizzle-kit drop",

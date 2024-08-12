@@ -24,7 +24,7 @@ const db = drizzle(sql, {
 
 const main = async () => {
   console.log("Migrating database...");
-  await migrate(db, { migrationsFolder: "/app/db/migrations" }); // Specify the migrations folder
+  await migrate(db, { migrationsFolder: "/app/migration-store/migrations" }); // Specify the migrations folder
   await sql.end();
   console.log("Database migrated successfully!");
 };

@@ -1,10 +1,7 @@
 #!/usr/bin/env sh
 set -eou pipefail
 
-pnpm add drizzle-orm postgres & PID=$!
-wait $PID
-
-pnpm dbm:prod & PID=$!
+node /app/migration-store/run.mjs & PID=$!
 wait $PID
 
 HOSTNAME="0.0.0.0" node server.js
