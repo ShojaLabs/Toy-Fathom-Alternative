@@ -92,12 +92,12 @@ export async function storeTranscriptData(botId: string) {
       recallRecordingUrl: video_url,
       joinAt: new Date(join_at),
       retentionEnd: new Date(media_retention_end),
-      metadata: botData.value.data,
+      metadata: botData?.value?.data,
       transcriptProcessed: true,
-      transcript: transcript.value.data,
-      logs: logs.value.data,
-      intelligence: intelligence.value.data,
-      speakerTimeline: speakerTimeline.value.data,
+      transcript: transcript?.value?.data,
+      logs: logs?.value?.data,
+      intelligence: intelligence?.value?.data,
+      speakerTimeline: speakerTimeline?.value?.data,
       notFound: false,
     })
     .where(eq(MeetingBot.recallBotId, botId));
