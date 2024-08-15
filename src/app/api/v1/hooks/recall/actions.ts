@@ -9,7 +9,7 @@ import Paths from "@/constants/paths";
 import { Meeting } from "@/services/db/schema/meeting";
 import { CalendarOAuths } from "@/services/db/schema/calendar_oauth";
 import axios from "axios";
-import { uploadRecordings } from "./callRecordingActions";
+import { uploadRecordings, uploadScreenshots } from "./callRecordingActions";
 
 const BOT_STATUS_RECORDING_DONE = "recording_done";
 // WARNING: THERE IS A LIMIT OF 6 REQUESTIONS/HOUR FOR THIS API
@@ -101,7 +101,8 @@ export async function storeTranscriptData(botId: string) {
       notFound: false,
     })
     .where(eq(MeetingBot.recallBotId, botId));
-  await uploadRecordings(botId, video_url);
+  uploadRecordings(botId, video_url);
+  uploadScreenshots(botId);
 }
 
 // TODO: Rewrite this logic, it's very fragile at this point. It's 5 AM & I am tired so I am pushing this code.
