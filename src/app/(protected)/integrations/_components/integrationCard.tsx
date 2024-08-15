@@ -17,17 +17,17 @@ export default function IntegrationCard(
       withBorder
     >
       <div className="mb-4">
-        <div className="flex gap-6 mb-4 items-start">
+        <div className="flex gap-6 mb-4 items-start p-6 pb-0">
           <CardSection className="bg-white rounded-md w-24 h-3w-24 m-0">
             <Image
               src={logoUrl}
               width={500}
               height={500}
               alt={title}
-              className="rounded-md"
+              className="rounded-md border-none"
             />
           </CardSection>
-          <div>
+          <div className="pl-4">
             <Text className="text-2xl font-bold">{title}</Text>
             {!installed && isRecommended && (
               <Badge color="pink">Recommended</Badge>

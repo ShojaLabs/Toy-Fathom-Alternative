@@ -34,6 +34,8 @@ export async function bot_joinCallOnDemand(link: string) {
           userId: userId as string,
           meetingTitle: `Impromptu Meeting - ${dayjs(Date.now()).format("ddd, MMM D, h:mm A")}`,
           meetingUrl: link,
+          meetingPlatform: "zoom",
+          status: "confirmed",
         };
         let mIds = await tx
           .insert(Meeting)

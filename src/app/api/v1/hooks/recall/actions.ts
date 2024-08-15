@@ -3,18 +3,29 @@
 import Recall, { RecallApis } from "@/services/recall/apis";
 import { MeetingBot } from "@/services/db/schema/meeting_bot";
 import db from "@/services/db";
-import { eq, sql } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import Paths from "@/constants/paths";
 import { Meeting } from "@/services/db/schema/meeting";
 import { CalendarOAuths } from "@/services/db/schema/calendar_oauth";
+import axios from "axios";
+import { uploadRecordings, uploadScreenshots } from "./callRecordingActions";
 
+const BOT_STATUS_RECORDING_DONE = "recording_done";
 // WARNING: THERE IS A LIMIT OF 6 REQUESTIONS/HOUR FOR THIS API
 // TODO: Make this configurable at some point
 // set the data based on this - https://docs.recall.ai/reference/bot_analyze_create
 export async function analyseBotMedia(botId: string) {
   let status = false;
   try {
+    const { data: botData } = await Recall.get(RecallApis.get_Bot(botId));
+    const botStatus = botData?.status_changes;
+    const isRecordingDone = !!botStatus.find(
+      (bs: any) => bs.code == BOT_STATUS_RECORDING_DONE,
+    );
+    // No recording found
+    if (!isRecordingDone) return true;
+
     const bot = await db.query.MeetingBot.findFirst({
       where: eq(MeetingBot.recallBotId, botId),
       columns: {
@@ -22,7 +33,7 @@ export async function analyseBotMedia(botId: string) {
         transcriptProcessed: true,
       },
     });
-
+    // Bot recording processed
     if (bot?.transcriptRequested && bot?.transcriptProcessed) {
       console.log("Transcript already requested and processed for this bot");
       status = true;
@@ -81,15 +92,17 @@ export async function storeTranscriptData(botId: string) {
       recallRecordingUrl: video_url,
       joinAt: new Date(join_at),
       retentionEnd: new Date(media_retention_end),
-      metadata: botData.value.data,
+      metadata: botData?.value?.data,
       transcriptProcessed: true,
-      transcript: transcript.value.data,
-      logs: logs.value.data,
-      intelligence: intelligence.value.data,
-      speakerTimeline: speakerTimeline.value.data,
+      transcript: transcript?.value?.data,
+      logs: logs?.value?.data,
+      intelligence: intelligence?.value?.data,
+      speakerTimeline: speakerTimeline?.value?.data,
       notFound: false,
     })
     .where(eq(MeetingBot.recallBotId, botId));
+  uploadRecordings(botId, video_url);
+  uploadScreenshots(botId);
 }
 
 // TODO: Rewrite this logic, it's very fragile at this point. It's 5 AM & I am tired so I am pushing this code.
