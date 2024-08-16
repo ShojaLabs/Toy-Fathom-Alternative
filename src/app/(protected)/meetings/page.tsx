@@ -9,6 +9,7 @@ import ProcessBotRecording from "@/app/(protected)/meetings/_components/processB
 import { Meeting } from "@/services/db/schema/meeting";
 import Link from "next/link";
 import Paths from "@/constants/paths";
+import RecordingPlayer from "./_components/recordingPlayer";
 
 export default async function Integrations() {
   const session = await server_GetUserSession();
@@ -34,6 +35,7 @@ export default async function Integrations() {
           transcriptRequested: true,
           notFound: true,
           intelligence: true,
+          recordingUrl: true,
         },
       },
     },
@@ -75,10 +77,13 @@ export default async function Integrations() {
                       withBorder
                     >
                       <div>
-                        <h5 className="mb-2 font-medium">
+                        <h5 className="mb-2 font-semibold text-base">
                           {meeting.meetingTitle} {meeting.meetingBot.notFound}
                         </h5>
-                        <p className="mb-4 text-sm">
+                        <RecordingPlayer
+                          recordingUrl={meeting?.meetingBot?.recordingUrl!}
+                        />
+                        <p className="my-4 text-sm">
                           {intelligence?.["assembly_ai.summary"]}
                         </p>
                       </div>

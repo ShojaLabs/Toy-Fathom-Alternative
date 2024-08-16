@@ -17,12 +17,16 @@
     "dbcheck": "drizzle-kit check"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.632.0",
+    "@aws-sdk/s3-request-presigner": "^3.632.0",
     "@mantine/core": "^7.11.2",
     "@mantine/form": "^7.11.2",
     "@mantine/hooks": "^7.11.2",
     "@mantine/notifications": "^7.11.2",
     "@mantinex/dev-icons": "^1.0.2",
+    "@smithy/hash-node": "^3.0.3",
     "@tabler/icons-react": "^3.11.0",
+    "@videojs/themes": "^1.0.1",
     "aws-sdk": "^2.1674.0",
     "axios": "^1.7.2",
     "clsx": "^2.1.1",
@@ -39,7 +43,8 @@
     "react-dom": "^18.3.1",
     "supertokens-auth-react": "^0.44.0",
     "supertokens-node": "^18.0.0",
-    "supertokens-web-js": "^0.13.0"
+    "supertokens-web-js": "^0.13.0",
+    "video.js": "^8.17.3"
   },
   "devDependencies": {
     "@types/cookie": "^0.6.0",

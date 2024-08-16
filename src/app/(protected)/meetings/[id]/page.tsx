@@ -7,6 +7,7 @@ import { Title } from "@/ui-components/Title";
 import TranscriptSync from "./transcriptSync";
 import { Paper } from "@mantine/core";
 import { CloseButton } from "./closeButton";
+import RecordingPlayer from "../_components/recordingPlayer";
 
 export default async function MeetingDetails({
   params: { id },
@@ -29,6 +30,7 @@ export default async function MeetingDetails({
           transcript: true,
           intelligence: true,
           speakerTimeline: true,
+          recordingUrl: true,
         },
       },
     },
@@ -45,7 +47,7 @@ export default async function MeetingDetails({
   const { intelligence }: any = meeting?.meetingBot;
 
   return (
-    <div className="h-full">
+    <div className="h-full max-w-7xl mx-auto">
       <div className="flex justify-between items-center pb-3">
         <Title className="text-2xl">{meeting?.meetingTitle}</Title>
         <CloseButton />
@@ -58,10 +60,17 @@ export default async function MeetingDetails({
         />
       ) : (
         <>
-          <Paper className="border p-4">
-            <h2 className="text-xl font-semibold mb-2">Summary</h2>
-            <p>{intelligence?.["assembly_ai.summary"]}</p>
-          </Paper>
+          <div className="flex gap-4">
+            <div className="min-w-max grow">
+              <RecordingPlayer
+                recordingUrl={meeting?.meetingBot?.recordingUrl!}
+              />
+            </div>
+            <Paper className="border p-4 max-w-96">
+              <h2 className="text-xl font-semibold mb-2">Summary</h2>
+              <p>{intelligence?.["assembly_ai.summary"]}</p>
+            </Paper>
+          </div>
           <Paper className="border p-4 mt-4">
             <h2 className="text-xl font-semibold mb-2">Transcript</h2>
             {intelligence?.["assembly_ai.iab_categories_result"].results.map(
