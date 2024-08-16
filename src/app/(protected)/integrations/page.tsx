@@ -7,6 +7,7 @@ import {
 import { Integration } from "@/services/db/schema/integration";
 import { server_GetUserSession } from "@/supertokens/utils";
 import { eq } from "drizzle-orm";
+import { CloseButton } from "../meetings/[id]/closeButton";
 
 export default async function IntegrationsPage() {
   const session = await server_GetUserSession();
@@ -25,7 +26,10 @@ export default async function IntegrationsPage() {
   });
 
   return (
-    <div className="flex flex-wrap gap-2">
+    <div className="flex flex-wrap gap-4">
+      <div className="absolute top-4 right-4">
+        <CloseButton />
+      </div>
       {integrations.map((intg) => {
         return (
           <IntegrationCard

@@ -9,6 +9,7 @@ import ProcessBotRecording from "@/app/(protected)/meetings/_components/processB
 import { Meeting } from "@/services/db/schema/meeting";
 import Link from "next/link";
 import Paths from "@/constants/paths";
+import RecordingPlayer from "./_components/recordingPlayer";
 
 export default async function Integrations() {
   const session = await server_GetUserSession();
@@ -33,6 +34,8 @@ export default async function Integrations() {
           recallBotId: true,
           transcriptRequested: true,
           notFound: true,
+          intelligence: true,
+          recordingUrl: true,
         },
       },
     },
@@ -43,10 +46,6 @@ export default async function Integrations() {
   meetings = meetings?.filter(
     (mt) => !!mt.meetingBot && !mt.meetingBot.notFound,
   );
-  console.log("[DATA] Found meetings", {
-    meetings: meetings?.map((m: any) => m.meetingBot),
-  });
-  console.log("Meetings : ", meetings);
   meetings?.forEach((meeting) => {
     const day = meeting.joinAt
       ? dayjs(meeting.joinAt).format("MMM DD, YYYY")
@@ -58,9 +57,6 @@ export default async function Integrations() {
       categorisedByDay[day] = [meeting];
     }
   });
-  console.log({
-    categorisedByDay,
-  });
   // TODO: Add a page to show that there are no meetings
   // TODO: Add a component to show that there was an error fetching the meeting entries.
   return (
@@ -69,44 +65,47 @@ export default async function Integrations() {
         return (
           <div className="w-full pb-8" key={day}>
             <h3 className="text-lg font-bold text-gray-800">{day}</h3>
-            <div className="mt-4 grid grid-cols-3 gap-4">
+            <div className="mt-4 flex flex-wrap gap-4">
               {categorisedByDay &&
                 categorisedByDay?.[day]?.map((meeting) => {
+                  const { intelligence }: any = meeting?.meetingBot;
                   return (
                     <Paper
                       bg="dark.6"
-                      className="p-4"
+                      className="p-4 w-[400px] flex flex-col justify-between"
                       key={meeting.id}
                       withBorder
                     >
-                      {/* <Image
-                      src={Images[meeting.platform]}
-                      width={80}
-                      height={80}
-                      alt="Zoom logo"
-                      className="rounded-md mb-2"
-                    />
-                    <Link href={`/meetings/${meeting.botId}`}>
-                      <Button variant="light">Details</Button>
-                    </Link> */}
-                      <h5 className="mb-4">
-                        {meeting.meetingTitle} {meeting.meetingBot.notFound}
-                      </h5>
-                      {!meeting?.meetingBot?.transcriptRequested ? (
-                        <ProcessBotRecording
-                          botId={meeting.meetingBot?.recallBotId!}
-                          disabled={meeting.meetingBot?.transcriptRequested!}
+                      <div>
+                        <h5 className="mb-2 font-semibold text-base">
+                          {meeting.meetingTitle} {meeting.meetingBot.notFound}
+                        </h5>
+                        <RecordingPlayer
+                          recordingUrl={meeting?.meetingBot?.recordingUrl!}
                         />
-                      ) : (
-                        <Link
-                          href={Paths.dashboard.meetingDetails(
-                            meeting.id,
-                            meeting.meetingBot?.recallBotId,
-                          )}
-                        >
-                          <Button variant="outline">Details</Button>
-                        </Link>
-                      )}
+                        <p className="my-4 text-sm">
+                          {intelligence?.["assembly_ai.summary"]}
+                        </p>
+                      </div>
+                      <div className="flex flex-row-reverse">
+                        {!meeting?.meetingBot?.transcriptRequested ? (
+                          <ProcessBotRecording
+                            botId={meeting.meetingBot?.recallBotId!}
+                            disabled={meeting.meetingBot?.transcriptRequested!}
+                          />
+                        ) : (
+                          <Link
+                            href={Paths.dashboard.meetingDetails(
+                              meeting.id,
+                              meeting.meetingBot?.recallBotId,
+                            )}
+                          >
+                            <Button color="dark" variant="light">
+                              Details
+                            </Button>
+                          </Link>
+                        )}
+                      </div>
                     </Paper>
                   );
                 })}

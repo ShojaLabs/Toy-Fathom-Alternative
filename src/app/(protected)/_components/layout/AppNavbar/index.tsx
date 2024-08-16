@@ -3,7 +3,6 @@ import { IconBulb, IconUser, IconCheckbox } from "@tabler/icons-react";
 import { clsx } from "clsx";
 import appNavItems from "./routes";
 import NavItem from "./navItem";
-import UserProfileMenu from "./userProfileMenu";
 
 const links = [
   { icon: IconBulb, label: "Activity", notifications: 3 },
@@ -47,7 +46,6 @@ export default function AppNavbar() {
       className={clsx("min-w-60", "flex flex-col", "p-2 h-full")}
       bg="dark.6"
     >
-      <UserProfileMenu />
       <div className="py-4">{collectionLinks}</div>
     </Paper>
   );

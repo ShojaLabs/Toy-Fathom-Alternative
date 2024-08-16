@@ -1,0 +1,7 @@
+.vjs-big-play-button {
+  border: none !important;
+}
+.vjs-playback-rate,
+.vjs-remaining-time-display {
+  font-size: 10px !important;
+}

@@ -17,7 +17,7 @@ export default function IntegrationCard(
       withBorder
     >
       <div className="mb-4">
-        <div className="flex gap-6 mb-4 items-start p-6 pb-0">
+        <div className="flex mb-4 items-start pb-0">
           <CardSection className="bg-white rounded-md w-24 h-3w-24 m-0">
             <Image
               src={logoUrl}
@@ -28,7 +28,7 @@ export default function IntegrationCard(
             />
           </CardSection>
           <div className="pl-4">
-            <Text className="text-2xl font-bold">{title}</Text>
+            <Text className="text-xl font-bold">{title}</Text>
             {!installed && isRecommended && (
               <Badge color="pink">Recommended</Badge>
             )}

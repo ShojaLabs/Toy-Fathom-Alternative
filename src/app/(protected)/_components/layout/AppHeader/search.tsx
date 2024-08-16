@@ -5,7 +5,7 @@ export function Search() {
   return (
     <TextInput
       variant="filled"
-      className="min-w-80 w-full"
+      className="max-w-80 w-full"
       size="md"
       placeholder="Search `cmd + k`"
       rightSectionWidth={42}
