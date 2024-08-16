@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import { Button, Paper, UnstyledButton } from "@mantine/core";
 import { Search } from "./search";
@@ -8,6 +6,7 @@ import Link from "next/link";
 import { IconPlugConnected, IconTopologyStar3 } from "@tabler/icons-react";
 import Paths from "@/constants/paths";
 import { PageTitle } from "./pageTitle";
+import CallNow from "./callNow";
 
 export default function AppHeader() {
   return (
@@ -36,6 +35,7 @@ export default function AppHeader() {
               Integrations
             </Button>
           </Link>
+          <CallNow />
         </div>
       </div>
     </Paper>

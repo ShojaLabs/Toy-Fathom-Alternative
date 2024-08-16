@@ -20,8 +20,8 @@ function JoinZoomCallOnDemand() {
     },
   });
   return (
-    <Paper className="w-full">
-      <Title className="text-sm font-normal mb-1">Join Zoom Meeting!</Title>
+    <div className="w-[560px]">
+      <Title className="text-sm font-normal mb-1">Join Zoom Meeting</Title>
       <form
         className={"flex gap-2 items-end"}
         action={() => {
@@ -42,14 +42,13 @@ function JoinZoomCallOnDemand() {
           onChange={(event) =>
             form.setFieldValue("link", event.currentTarget.value)
           }
-          size="md"
-          placeholder={"https://us05web.zoom.us/s/859245?pwd=TEGTKYVsWs7bq5.1"}
+          placeholder={"https://us05web.zoom.us/s/xxxxxx?pwd=xxxxxxxxx.1"}
         />
-        <Button variant="light" type="submit" size="md" className="font-normal">
+        <Button type="submit" disabled={!form.values.link}>
           Join With Bot
         </Button>
       </form>
-    </Paper>
+    </div>
   );
 }
 
