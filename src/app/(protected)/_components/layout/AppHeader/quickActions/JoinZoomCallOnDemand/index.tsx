@@ -20,12 +20,7 @@ function JoinZoomCallOnDemand() {
     },
   });
   return (
-    <Paper
-      // p="sm"
-      bg="dark.6"
-      className="w-full"
-      // withBorder
-    >
+    <Paper className="w-full">
       <Title className="text-sm font-normal mb-1">Join Zoom Meeting!</Title>
       <form
         className={"flex gap-2 items-end"}
@@ -50,12 +45,7 @@ function JoinZoomCallOnDemand() {
           size="md"
           placeholder={"https://us05web.zoom.us/s/859245?pwd=TEGTKYVsWs7bq5.1"}
         />
-        <Button
-          variant="light"
-          type="submit"
-          size="md"
-          className="font-normal"
-        >
+        <Button variant="light" type="submit" size="md" className="font-normal">
           Join With Bot
         </Button>
       </form>

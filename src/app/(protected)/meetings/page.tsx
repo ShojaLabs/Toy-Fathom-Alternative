@@ -69,13 +69,13 @@ export default async function Integrations() {
         return (
           <div className="w-full pb-8" key={day}>
             <h3 className="text-lg font-bold text-gray-800">{day}</h3>
-            <div className="mt-4 grid grid-cols-3 gap-4">
+            <div className="mt-4 flex flex-wrap gap-4">
               {categorisedByDay &&
                 categorisedByDay?.[day]?.map((meeting) => {
                   return (
                     <Paper
                       bg="dark.6"
-                      className="p-4"
+                      className="p-4 min-w-[400px]"
                       key={meeting.id}
                       withBorder
                     >
@@ -89,7 +89,7 @@ export default async function Integrations() {
                     <Link href={`/meetings/${meeting.botId}`}>
                       <Button variant="light">Details</Button>
                     </Link> */}
-                      <h5 className="mb-4">
+                      <h5 className="mb-4 font-medium">
                         {meeting.meetingTitle} {meeting.meetingBot.notFound}
                       </h5>
                       {!meeting?.meetingBot?.transcriptRequested ? (

@@ -46,7 +46,7 @@ export default async function MeetingDetails({
 
   return (
     <div className="h-full">
-      <div className="flex justify-between pb-3">
+      <div className="flex justify-between items-center pb-3">
         <Title className="text-2xl">{meeting?.meetingTitle}</Title>
         <CloseButton />
       </div>
