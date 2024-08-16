@@ -36,26 +36,14 @@ export default function AppHeader() {
       withinPortal
     >
       <Menu.Target>
-        <Button
-          className={clsx(
-            "px-4 h-10",
-            userMenuOpened && "hover:text-white text-white",
-          )}
-          variant="light"
-          color={userMenuOpened ? "brand.9" : "dark"}
-          rightSection={
-            <IconUser
-              className={clsx(
-                "mx-auto",
-                userMenuOpened ? "text-white" : "text-gray-500",
-              )}
-              size="20px"
-            />
-          }
-          justify="space-between"
-          fullWidth
-        >
-          Username
+        <Button className={clsx("p-0 w-10 h-10")} variant="default">
+          <IconUser
+            className={clsx(
+              "mx-auto",
+              userMenuOpened ? "text-white" : "text-gray-500",
+            )}
+            size="24px"
+          />
         </Button>
       </Menu.Target>
       <Menu.Dropdown>
