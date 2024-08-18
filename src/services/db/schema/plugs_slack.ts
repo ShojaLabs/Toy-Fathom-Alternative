@@ -22,18 +22,18 @@ export const PlugsSlack = pgTable(
     integrationId: uuid("integration_id").notNull(),
     userId: uuid("user_id").notNull(),
 
-    appId: varchar("app_id", { length: 512 }).notNull(),
-    teamId: varchar("team_id", { length: 512 }).notNull(),
-    teamName: varchar("team_name", { length: 512 }).notNull(),
-    enterpriseId: varchar("enterprise_id", { length: 512 }).notNull(),
-    enterpriseName: varchar("enterprise_name", { length: 512 }).notNull(),
+    appId: varchar("app_id", { length: 512 }),
+    teamId: varchar("team_id", { length: 512 }),
+    teamName: varchar("team_name", { length: 512 }),
+    enterpriseId: varchar("enterprise_id", { length: 512 }),
+    enterpriseName: varchar("enterprise_name", { length: 512 }),
 
-    botId: varchar("bot_user_id", { length: 512 }).notNull(),
-    botScopes: text("bot_scopes").notNull(),
-    botAccessToken: text("bot_access_token").notNull(), // Bot Access Token
-    slackUserId: varchar("slack_user_id", { length: 512 }).notNull(),
-    userScopes: text("user_scopes").notNull(),
-    userAccessToken: text("user_access_token").notNull(), // User Access Token
+    botId: varchar("bot_user_id", { length: 512 }),
+    botScopes: text("bot_scopes"),
+    botAccessToken: text("bot_access_token"),
+    slackUserId: varchar("slack_user_id", { length: 512 }),
+    userScopes: text("user_scopes"),
+    userAccessToken: text("user_access_token"),
 
     createdAt: timestamp("created_at").notNull().defaultNow(),
     updatedAt: timestamp("updated_at").notNull().defaultNow(),
