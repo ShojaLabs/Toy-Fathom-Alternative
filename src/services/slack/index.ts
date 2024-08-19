@@ -1,7 +1,5 @@
 import { App, AppOptions } from "@slack/bolt";
-import { PlugsSlack } from "../db/schema/plugs_slack";
-import db from "../db";
-import { and, eq } from "drizzle-orm";
+
 export async function authoriseSlack(code: string, userId: string) {
   const slackOptions = {
     signingSecret: process.env.SLACK_SIGNING_SECRET,
@@ -49,69 +47,4 @@ export function getSlack(botToken: string) {
     token: botToken,
   });
   return app;
-}
-
-export async function findBotImChannel(id: string) {
-  try {
-    const slackPlug = await db.query.PlugsSlack.findFirst({
-      where: eq(PlugsSlack.id, id),
-      columns: {
-        botImChannel: true,
-        slackUserId: true,
-        botAccessToken: true,
-      },
-    });
-    if (!!slackPlug?.botImChannel) return slackPlug?.botImChannel;
-
-    const slackClient = getSlackClient(slackPlug?.botAccessToken!);
-    const convo = await slackClient.conversations.open({
-      users: slackPlug?.slackUserId!,
-    });
-    const channel = convo?.channel?.id;
-
-    await db
-      .update(PlugsSlack)
-      .set({
-        botImChannel: channel,
-      })
-      .where(eq(PlugsSlack.id, id));
-    return channel;
-  } catch (e: any) {
-    console.error("Failed to update the channel", e.message);
-  }
-}
-
-export async function slack_postMessage(
-  slackUserId: string,
-  teamId: string,
-  message: string,
-) {
-  const slackPlug = await db.query.PlugsSlack.findFirst({
-    where: and(
-      eq(PlugsSlack.slackUserId, slackUserId),
-      eq(PlugsSlack.teamId, teamId),
-    ),
-    columns: {
-      id: true,
-      userId: true,
-      botId: true,
-      slackUserId: true,
-      botAccessToken: true,
-      userAccessToken: true,
-      botImChannel: true,
-    },
-  });
-  const channel = slackPlug?.botImChannel
-    ? slackPlug.botImChannel
-    : await findBotImChannel(slackPlug?.id!);
-  if (!!channel) {
-    const slackClient = getSlackClient(slackPlug?.botAccessToken!);
-    await slackClient.chat.postMessage({
-      channel: channel,
-      text: message,
-      token: slackPlug?.botAccessToken!,
-    });
-  } else {
-    console.log("Couldn't open conversation");
-  }
 }
