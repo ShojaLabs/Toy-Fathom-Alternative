@@ -37,11 +37,12 @@ export async function POST(request: NextRequest) {
       const isBotEvent = !!event?.bot_id;
 
       if (!isBotEvent) {
-        await slack_postMessage(
-          slackUserId,
-          teamId,
-          "This is a message from Bot on some event",
-        );
+        // TODO: Add event handlers here.
+        // await slack_postMessage(
+        //   slackUserId,
+        //   teamId,
+        //   "This is a message from Bot on some event",
+        // );
       }
       return NextResponse.json("OK", {
         status: 200,
