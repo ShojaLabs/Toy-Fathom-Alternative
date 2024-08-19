@@ -34,6 +34,11 @@ export async function POST(request: NextRequest) {
         // await request.json(),
       );
       const body = await request.json();
+      if (body.type == "url_verification") {
+        return NextResponse.json(body.challenge, {
+          status: 200,
+        });
+      }
       const event = body?.event;
       const teamId = body?.team_id;
       const slackUserId = event?.user;
@@ -50,7 +55,7 @@ export async function POST(request: NextRequest) {
         },
       });
       console.log({ slackPlug });
-      return NextResponse.json(body?.challenge || "OK", {
+      return NextResponse.json("OK", {
         status: 200,
       });
     }
