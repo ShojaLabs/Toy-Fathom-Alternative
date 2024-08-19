@@ -2,9 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import JsonWebToken from "jsonwebtoken";
 import jws from "jws";
 import jwksClient from "jwks-rsa";
-import db from "@/services/db";
-import { and, eq } from "drizzle-orm";
-import { PlugsSlack } from "@/services/db/schema/plugs_slack";
+import { slack_postMessage } from "@/services/slack";
 
 const client = jwksClient({
   jwksUri: `${process.env.NEXT_PUBLIC_SUPERTOKENS_WEBSITE_DOMAIN}${process.env.NEXT_PUBLIC_SUPERTOKENS_API_BASE_PATH}/jwt/jwks.json`,
@@ -27,12 +25,6 @@ export async function POST(request: NextRequest) {
     ) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     } else {
-      console.log(
-        "Authorized!!",
-        // request.body,
-        // await request.text(),
-        // await request.json(),
-      );
       const body = await request.json();
       if (body.type == "url_verification") {
         return NextResponse.json(body.challenge, {
@@ -42,19 +34,15 @@ export async function POST(request: NextRequest) {
       const event = body?.event;
       const teamId = body?.team_id;
       const slackUserId = event?.user;
+      const isBotEvent = !!event?.bot_id;
 
-      const slackPlug = await db.query.PlugsSlack.findFirst({
-        where: and(
-          eq(PlugsSlack.slackUserId, slackUserId),
-          eq(PlugsSlack.teamId, teamId),
-        ),
-        columns: {
-          userId: true,
-          botAccessToken: true,
-          userAccessToken: true,
-        },
-      });
-      console.log({ slackPlug });
+      if (!isBotEvent) {
+        await slack_postMessage(
+          slackUserId,
+          teamId,
+          "This is a message from Bot on some event",
+        );
+      }
       return NextResponse.json("OK", {
         status: 200,
       });
