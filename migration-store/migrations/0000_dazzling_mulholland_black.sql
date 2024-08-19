@@ -72,6 +72,25 @@ CREATE TABLE IF NOT EXISTS "meeting" (
 	CONSTRAINT "meeting_recall_id_unique" UNIQUE("recall_id")
 );
 --> statement-breakpoint
+CREATE TABLE IF NOT EXISTS "plugs_slack" (
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"integration_id" uuid NOT NULL,
+	"user_id" uuid NOT NULL,
+	"app_id" varchar(512),
+	"team_id" varchar(512),
+	"team_name" varchar(512),
+	"enterprise_id" varchar(512),
+	"enterprise_name" varchar(512),
+	"bot_user_id" varchar(512),
+	"bot_scopes" text,
+	"bot_access_token" text,
+	"slack_user_id" varchar(512),
+	"user_scopes" text,
+	"user_access_token" text,
+	"created_at" timestamp DEFAULT now() NOT NULL,
+	"updated_at" timestamp DEFAULT now() NOT NULL
+);
+--> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "user" (
 	"id" uuid PRIMARY KEY NOT NULL,
 	"email" varchar(512) NOT NULL,
@@ -116,6 +135,12 @@ END $$;
 --> statement-breakpoint
 DO $$ BEGIN
  ALTER TABLE "meeting" ADD CONSTRAINT "installation_fk" FOREIGN KEY ("integration_id","user_id") REFERENCES "public"."installation"("integration_id","user_id") ON DELETE no action ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "plugs_slack" ADD CONSTRAINT "installation_fk" FOREIGN KEY ("integration_id","user_id") REFERENCES "public"."installation"("integration_id","user_id") ON DELETE no action ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
