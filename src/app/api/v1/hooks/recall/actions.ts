@@ -10,6 +10,7 @@ import { Meeting } from "@/services/db/schema/meeting";
 import { CalendarOAuths } from "@/services/db/schema/calendar_oauth";
 import axios from "axios";
 import { uploadRecordings, uploadScreenshots } from "./callRecordingActions";
+import { slack_sendSummaryToUser } from "@/services/slack/helpers";
 
 const BOT_STATUS_RECORDING_DONE = "recording_done";
 // WARNING: THERE IS A LIMIT OF 6 REQUESTIONS/HOUR FOR THIS API
@@ -86,7 +87,7 @@ export async function storeTranscriptData(botId: string) {
   const [botData, logs, transcript, intelligence, speakerTimeline]: any =
     meetingRequestedData;
   const { video_url, join_at, media_retention_end } = botData.value.data;
-  await db
+  const res = await db
     .update(MeetingBot)
     .set({
       recallRecordingUrl: video_url,
@@ -100,7 +101,11 @@ export async function storeTranscriptData(botId: string) {
       speakerTimeline: speakerTimeline?.value?.data,
       notFound: false,
     })
-    .where(eq(MeetingBot.recallBotId, botId));
+    .where(eq(MeetingBot.recallBotId, botId))
+    .returning({
+      meetingId: MeetingBot.meetingId,
+    });
+  slack_sendSummaryToUser(res[0].meetingId);
   uploadRecordings(botId, video_url);
   uploadScreenshots(botId);
 }

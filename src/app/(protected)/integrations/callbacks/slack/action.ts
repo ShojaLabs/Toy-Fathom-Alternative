@@ -9,7 +9,7 @@ import {
 import { eq } from "drizzle-orm";
 import { Installation } from "@/services/db/schema/installation";
 import Paths from "@/constants/paths";
-import { authoriseSlack } from "@/services/slack";
+import { authoriseSlack, findBotImChannel } from "@/services/slack";
 import { PlugsSlack } from "@/services/db/schema/plugs_slack";
 
 export async function install(code: string, userId: string) {
@@ -34,21 +34,29 @@ export async function install(code: string, userId: string) {
             userId,
           });
 
-          await tx.insert(PlugsSlack).values({
-            integrationId,
-            userId,
-            appId: data.app_id,
-            teamId: data?.team?.id || "",
-            teamName: data?.team?.name || "",
-            enterpriseId: data?.enterprise?.id || "",
-            enterpriseName: data?.enterprise?.name || "",
-            botId: data.bot_user_id!,
-            botScopes: data.scope!,
-            botAccessToken: data.access_token!,
-            slackUserId: data?.authed_user?.id || "",
-            userScopes: data?.authed_user?.scope || "",
-            userAccessToken: data?.authed_user?.access_token || "",
-          });
+          const res = await tx
+            .insert(PlugsSlack)
+            .values({
+              integrationId,
+              userId,
+              appId: data.app_id,
+              teamId: data?.team?.id || "",
+              teamName: data?.team?.name || "",
+              enterpriseId: data?.enterprise?.id || "",
+              enterpriseName: data?.enterprise?.name || "",
+              botId: data.bot_user_id!,
+              botScopes: data.scope!,
+              botAccessToken: data.access_token!,
+              slackUserId: data?.authed_user?.id || "",
+              userScopes: data?.authed_user?.scope || "",
+              userAccessToken: data?.authed_user?.access_token || "",
+            })
+            .returning({
+              id: PlugsSlack.id,
+            });
+
+          const id = res[0]?.id;
+          await findBotImChannel(id);
         } catch (e) {
           tx.rollback();
           console.error("Slack installation failed...", {

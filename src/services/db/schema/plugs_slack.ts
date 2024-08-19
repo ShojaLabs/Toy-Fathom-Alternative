@@ -31,6 +31,7 @@ export const PlugsSlack = pgTable(
     botId: varchar("bot_user_id", { length: 512 }),
     botScopes: text("bot_scopes"),
     botAccessToken: text("bot_access_token"),
+    botImChannel: varchar("bot_im_channel", { length: 512 }),
     slackUserId: varchar("slack_user_id", { length: 512 }),
     userScopes: text("user_scopes"),
     userAccessToken: text("user_access_token"),

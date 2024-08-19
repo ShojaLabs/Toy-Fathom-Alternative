@@ -10,3 +10,10 @@ const Paths = {
 };
 
 export default Paths;
+
+export const AbsolutePaths = {
+  dashboard: {
+    meetingDetails: (id: string, botId: string) =>
+      `${process.env.NEXT_PUBLIC_APP_DOMAIN}/meetings/${id}?b=${botId}`,
+  },
+};

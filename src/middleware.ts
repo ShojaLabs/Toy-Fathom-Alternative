@@ -18,7 +18,8 @@ export async function middleware(
 
   if (
     request.nextUrl.pathname.startsWith("/api/v1/auth") ||
-    request.nextUrl.pathname.startsWith("/api/v1/hooks")
+    request.nextUrl.pathname.startsWith("/api/v1/hooks") ||
+    request.nextUrl.pathname.startsWith("/api/v1/events")
   ) {
     /**
      * /api/auth/* endpoints are exposed by the SuperTokens SDK,

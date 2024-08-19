@@ -12,6 +12,8 @@ export async function POST(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const token = searchParams.get("token")!;
   try {
+    // TODO: build everything you need async don't hold this up.
+
     const header = jws.decode(token)!.header;
     const signingKey = await client.getSigningKey(header.kid);
     const publicKey = signingKey.getPublicKey();
@@ -24,25 +26,11 @@ export async function POST(request: NextRequest) {
     ) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     } else {
-      const body = await request.json();
-      if (body.type == "url_verification") {
-        return NextResponse.json(body.challenge, {
-          status: 200,
-        });
-      }
-      const event = body?.event;
-      // const teamId = body?.team_id;
-      // const slackUserId = event?.user;
-      const isBotEvent = !!event?.bot_id;
+      // const body = await request.formData();
+      // const payload = JSON.parse(body.get("payload") as string);
+      // console.log({ payload });
+      // console.log({ actions: payload.actions });
 
-      if (!isBotEvent) {
-        // TODO: Add event handlers here.
-        // await slack_postMessage(
-        //   slackUserId,
-        //   teamId,
-        //   "This is a message from Bot on some event",
-        // );
-      }
       return NextResponse.json("OK", {
         status: 200,
       });

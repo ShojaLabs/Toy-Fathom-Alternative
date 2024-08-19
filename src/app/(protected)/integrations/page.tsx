@@ -12,6 +12,11 @@ import { CloseButton } from "../meetings/[id]/closeButton";
 export default async function IntegrationsPage() {
   const session = await server_GetUserSession();
   const userId = session?.getUserId();
+  if (!userId) {
+    // user is not unauthorised
+    return null;
+  }
+
   const integrations = await db.select().from(Integration);
   const installations = await db
     .select()
