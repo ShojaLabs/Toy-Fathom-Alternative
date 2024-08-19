@@ -1,0 +1,1 @@
+ALTER TABLE "plugs_slack" ADD COLUMN "bot_im_channel" varchar(512);
