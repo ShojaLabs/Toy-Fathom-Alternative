@@ -9,7 +9,7 @@ import {
 import { eq } from "drizzle-orm";
 import { Installation } from "@/services/db/schema/installation";
 import Paths from "@/constants/paths";
-import { authoriseSlack, findBotImChannel } from "@/services/slack";
+import { authoriseSlack } from "@/services/slack";
 import { PlugsSlack } from "@/services/db/schema/plugs_slack";
 
 export async function install(code: string, userId: string) {
@@ -56,7 +56,6 @@ export async function install(code: string, userId: string) {
             });
 
           const id = res[0]?.id;
-          await findBotImChannel(id);
         } catch (e) {
           tx.rollback();
           console.error("Slack installation failed...", {
