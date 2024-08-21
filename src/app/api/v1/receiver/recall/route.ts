@@ -8,6 +8,7 @@ import {
   syncCalendarEvents,
   updateCalendar,
 } from "./actions";
+import { slack_notifyUserAboutCall } from "@/services/slack/helpers";
 
 const client = jwksClient({
   jwksUri: `${process.env.NEXT_PUBLIC_SUPERTOKENS_WEBSITE_DOMAIN}${process.env.NEXT_PUBLIC_SUPERTOKENS_API_BASE_PATH}/jwt/jwks.json`,
@@ -39,10 +40,21 @@ export async function POST(request: NextRequest) {
       // Handle Bot Web Hooks
       if (event === "bot.status_change") {
         const { bot_id, status } = data;
-        if (status.code == "done") {
-          analyseBotMedia(bot_id);
-        } else if (status.code == "analysis_done") {
-          storeTranscriptData(bot_id);
+        // if (status.code == "done") {
+        //   analyseBotMedia(bot_id);
+        // } else if (status.code == "analysis_done") {
+        //   storeTranscriptData(bot_id);
+        // }
+        switch (status.code) {
+          case "done":
+            analyseBotMedia(bot_id);
+            break;
+          case "analysis_done":
+            storeTranscriptData(bot_id);
+            break;
+          case "joining_call":
+            slack_notifyUserAboutCall(bot_id);
+            break;
         }
       }
       // Handle Calendar Web Hooks
