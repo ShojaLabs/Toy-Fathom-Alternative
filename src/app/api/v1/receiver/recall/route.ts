@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
       decodedJWT === undefined ||
       typeof decodedJWT === "string" ||
       decodedJWT.source === undefined ||
-      decodedJWT.source !== "recall-hooks"
+      decodedJWT.source !== "recall-events"
     ) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     } else {
