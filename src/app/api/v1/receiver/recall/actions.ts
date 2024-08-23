@@ -25,7 +25,13 @@ export async function analyseBotMedia(botId: string) {
       (bs: any) => bs.code == BOT_STATUS_RECORDING_DONE,
     );
     // No recording found
-    if (!isRecordingDone) return true;
+    if (!isRecordingDone) {
+      await db
+        .update(MeetingBot)
+        .set({ notFound: true })
+        .where(eq(MeetingBot.recallBotId, botId));
+      return true;
+    }
 
     const bot = await db.query.MeetingBot.findFirst({
       where: eq(MeetingBot.recallBotId, botId),

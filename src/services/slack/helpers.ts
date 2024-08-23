@@ -35,6 +35,10 @@ export async function slack_sendSummaryToUser(meetingId: string) {
         teamId: true,
       },
     });
+    if (!slackPlug) {
+      console.log("[INFO]: User doesn't have slack plug installed");
+      return true;
+    }
     const { intelligence }: any = meeting?.meetingBot;
     const summary = intelligence?.["assembly_ai.summary"];
     const url = AbsolutePaths.dashboard.meetingDetails(
@@ -78,6 +82,10 @@ export async function slack_notifyUserAboutCall(botId: string) {
         teamId: true,
       },
     });
+    if (!slackPlug) {
+      console.log("[INFO]: User doesn't have slack plug installed");
+      return true;
+    }
     const messageBlocks = notifyJoinCall(
       bot?.meeting?.meetingTitle!,
       bot?.meeting?.meetingUrl!,

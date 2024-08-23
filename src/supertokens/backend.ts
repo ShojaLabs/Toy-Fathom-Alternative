@@ -11,6 +11,7 @@ import {
   installGoogleCalendar,
   updateGoogleCalendar,
 } from "@/supertokens/_actions";
+import sendEmail from "@/services/email";
 
 export let backendConfig = (): TypeInput => {
   return {
@@ -53,6 +54,7 @@ export let backendConfig = (): TypeInput => {
                   const { email } = input;
                   // console.log(JSON.stringify(rawUserInfoFromProvider))
                   await addNewUser(user.id, email, "email");
+                  sendEmail([email], "signup - welcome email");
                 }
 
                 return response;
@@ -145,6 +147,7 @@ export let backendConfig = (): TypeInput => {
                       if (thirdPartyId === "google") {
                         installGoogleCalendar(user.id, input);
                       }
+                      sendEmail([email], "signup - welcome email");
                     } else {
                       // POST Sign IN Logic
                       // TODO: update the calendar
