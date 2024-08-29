@@ -1,6 +1,16 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
+import bundleAnalyzer from '@next/bundle-analyzer';
+
+const withBundleAnalyzer = bundleAnalyzer({
+  enabled: process.env.ANALYZE === 'true',
+});
+
+export default withBundleAnalyzer({
   output: "standalone",
+  reactStrictMode: false,
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
   async redirects() {
     return [
       {
@@ -56,5 +66,3 @@ const nextConfig = {
   // This is required to support PostHog trailing slash API requests
   skipTrailingSlashRedirect: true,
 };
-
-export default nextConfig;

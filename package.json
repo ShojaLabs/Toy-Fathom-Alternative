@@ -24,6 +24,7 @@
     "@mantine/hooks": "^7.11.2",
     "@mantine/notifications": "^7.11.2",
     "@mantinex/dev-icons": "^1.0.2",
+    "@next/bundle-analyzer": "^14.2.7",
     "@slack/bolt": "^3.21.1",
     "@smithy/hash-node": "^3.0.3",
     "@tabler/icons-react": "^3.11.0",
