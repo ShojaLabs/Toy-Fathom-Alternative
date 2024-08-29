@@ -4,6 +4,7 @@ import { Button, Popover } from "@mantine/core";
 import { IconDeviceLandlinePhone } from "@tabler/icons-react";
 import React from "react";
 import JoinZoomCallOnDemand from "./quickActions/JoinZoomCallOnDemand";
+import posthog from "posthog-js";
 
 export default function CallNow() {
   /* TODO: See if this can be modularised */
@@ -14,6 +15,9 @@ export default function CallNow() {
         <Button
           className="h-10"
           leftSection={<IconDeviceLandlinePhone size={20} />}
+          onClick={() => {
+            posthog.capture("call_now_button_clicked");
+          }}
         >
           Call Now
         </Button>

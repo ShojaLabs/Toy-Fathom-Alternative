@@ -43,6 +43,8 @@
     "next": "^14.2.5",
     "nextjs-cors": "^2.2.0",
     "postgres": "3.3.5",
+    "posthog-js": "^1.160.0",
+    "posthog-node": "^4.2.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "supertokens-auth-react": "^0.44.0",

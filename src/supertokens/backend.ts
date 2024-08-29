@@ -12,6 +12,7 @@ import {
   updateGoogleCalendar,
 } from "@/supertokens/_actions";
 import sendEmail from "@/services/email";
+import posthog from "@/services/posthog";
 
 export let backendConfig = (): TypeInput => {
   return {
@@ -55,6 +56,13 @@ export let backendConfig = (): TypeInput => {
                   // console.log(JSON.stringify(rawUserInfoFromProvider))
                   await addNewUser(user.id, email, "email");
                   sendEmail([email], "signup - welcome email");
+                  posthog.capture({
+                    distinctId: user.id,
+                    event: "signup_email",
+                    properties: {
+                      email,
+                    },
+                  });
                 }
 
                 return response;
@@ -62,16 +70,24 @@ export let backendConfig = (): TypeInput => {
 
               // override the email password sign in function
               signIn: async function (input) {
-                console.log("Social SIGNUP", { input });
                 // TODO: some pre sign in logic
 
                 let response = await originalImplementation.signIn(input);
 
                 if (response.status === "OK" && input.session === undefined) {
                   // TODO: some post sign in logic
+                  const { user } = response;
+                  const { email } = input;
+                  posthog.capture({
+                    distinctId: user.id,
+                    event: "signin_email",
+                    properties: {
+                      email,
+                    },
+                  });
+
                   // console.log(JSON.stringify(response.user))
                 }
-
                 return response;
               },
             };
@@ -148,14 +164,30 @@ export let backendConfig = (): TypeInput => {
                         installGoogleCalendar(user.id, input);
                       }
                       sendEmail([email], "signup - welcome email");
+                      posthog.capture({
+                        distinctId: user.id,
+                        event: "signup_third_party",
+                        properties: {
+                          thirdPartyId,
+                          email,
+                        },
+                      });
                     } else {
                       // POST Sign IN Logic
                       // TODO: update the calendar
                       const { user } = response;
-                      const { thirdPartyId } = input;
+                      const { thirdPartyId, email } = input;
                       if (thirdPartyId === "google") {
                         updateGoogleCalendar(user.id, input);
                       }
+                      posthog.capture({
+                        distinctId: user.id,
+                        event: "signin_third_party",
+                        properties: {
+                          thirdPartyId,
+                          email,
+                        },
+                      });
                     }
                   }
                 }
