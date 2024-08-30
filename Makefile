@@ -16,12 +16,12 @@ local-prod-down:
 
 .PHONY: build-prod
 build-prod:
-	docker compose -f docker/prod/docker-compose.yml --env-file .env.production build
+	docker-compose -f docker/prod/docker-compose.yml --env-file .env.production build
 
 .PHONY: start-prod
 start-prod:
-	docker compose -f docker/prod/docker-compose.yml --env-file .env.production up -d
+	docker-compose -f docker/prod/docker-compose.yml --env-file .env.production up -d
 
 .PHONY: stop-prod
 stop-prod:
-	docker compose -f docker/prod/docker-compose.yml --env-file .env.production down
+	docker-compose -f docker/prod/docker-compose.yml --env-file .env.production down
