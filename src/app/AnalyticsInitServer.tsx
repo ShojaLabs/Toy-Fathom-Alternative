@@ -4,9 +4,10 @@ import posthog from "@/services/posthog";
 import { server_GetUserSession } from "@/supertokens/utils";
 import { eq } from "drizzle-orm";
 
-export default async function Analytics() {
+export default async function AnalyticsInitServer() {
   const session = await server_GetUserSession();
   const userId = session?.getUserId();
+  if (!userId) return null;
   const user = await db.query.User.findFirst({
     where: eq(User.id, userId!),
     columns: { email: true },

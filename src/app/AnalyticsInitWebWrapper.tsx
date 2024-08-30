@@ -13,7 +13,11 @@ if (typeof window !== "undefined") {
   });
 }
 
-export function CSPostHogProvider({ children }: { children: ReactNode }) {
+export default function AnalyticsInitWebWrapper({
+  children,
+}: {
+  children: ReactNode;
+}) {
   return (
     <PostHogProvider client={posthog}>
       <UserAnalyticsWrapper>{children}</UserAnalyticsWrapper>
