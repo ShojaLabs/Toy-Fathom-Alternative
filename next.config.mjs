@@ -24,6 +24,7 @@ export default withSentryConfig(
     },
     experimental: {
       optimizePackageImports: ["@mantine/core", "@mantine/hooks"],
+      webpackMemoryOptimizations: true,
     },
     async headers() {
       return [

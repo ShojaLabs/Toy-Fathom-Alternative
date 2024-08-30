@@ -1,0 +1,3 @@
+app.shoja.ai {
+  reverse_proxy localhost:3000
+}
