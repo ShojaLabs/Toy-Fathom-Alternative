@@ -48,6 +48,7 @@
     "posthog-node": "^4.2.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "sharp": "^0.33.5",
     "supertokens-auth-react": "^0.44.0",
     "supertokens-node": "^18.0.0",
     "supertokens-web-js": "^0.13.0",
