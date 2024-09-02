@@ -10,6 +10,9 @@ import { Meeting } from "@/services/db/schema/meeting";
 import Link from "next/link";
 import Paths from "@/constants/paths";
 import RecordingPlayer from "./_components/recordingPlayer";
+import Image from "next/image";
+import { IconPlugConnected } from "@tabler/icons-react";
+import { Installation } from "@/services/db/schema/installation";
 
 export default async function Integrations() {
   const session = await server_GetUserSession();
@@ -18,6 +21,11 @@ export default async function Integrations() {
     // user is not unauthorised
     return null;
   }
+
+  let installations = await db.query.Installation.findMany({
+    where: eq(Installation.userId, userId),
+    columns: { integrationId: true },
+  });
 
   // TODO: Paginate
   // TODO: Only fetch bots that are done recording (joinAt < today || null)
@@ -59,6 +67,35 @@ export default async function Integrations() {
   });
   // TODO: Add a page to show that there are no meetings
   // TODO: Add a component to show that there was an error fetching the meeting entries.
+  console.log("No meetings found", categorisedByDay);
+  if (Object.keys(categorisedByDay).length === 0) {
+    return (
+      <div className="py-32 flex justify-center items-center">
+        <div className="flex flex-col justify-center gap-8">
+          <Image
+            src="/assets/meeting-list.svg"
+            alt="Video Call"
+            width={740}
+            height={740}
+          />
+          <p className="text-center">
+            No Call Recordings Found! Get started by integrating the plugins...
+          </p>
+          {installations.length < 3 && (
+            <Link href={Paths.dashboard.integrations()} className="mx-auto">
+              <Button
+                className="h-10 mx-auto mt-4"
+                color="teal.7"
+                leftSection={<IconPlugConnected size={20} />}
+              >
+                Visit Integrations
+              </Button>
+            </Link>
+          )}
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="flex flex-wrap gap-2">
       {Object.keys(categorisedByDay).map((day) => {
