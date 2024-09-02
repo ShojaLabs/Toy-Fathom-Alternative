@@ -7,6 +7,7 @@ import { IconPlugConnected, IconTopologyStar3 } from "@tabler/icons-react";
 import Paths from "@/constants/paths";
 import { PageTitle } from "./pageTitle";
 import CallNow from "./callNow";
+import Image from "next/image";
 
 export default function AppHeader() {
   return (
@@ -15,7 +16,13 @@ export default function AppHeader() {
         <div className="flex-1 flex gap-4 items-center">
           <Link href="/">
             <UnstyledButton className="h-10 flex items-center">
-              <IconTopologyStar3 width={24} /> &nbsp; Shoja AI
+              <Image
+                src="/shoja/logo-mono.png"
+                alt="logo"
+                width={32}
+                height={32}
+              />
+              &nbsp; Shoja AI
             </UnstyledButton>
           </Link>
           <PageTitle />
