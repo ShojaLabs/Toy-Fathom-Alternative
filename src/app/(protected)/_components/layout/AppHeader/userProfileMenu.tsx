@@ -19,7 +19,7 @@ import testEmail from "./testEmail";
 
 export default function AppHeader() {
   const router = useRouter();
-  const theme = useMantineTheme();
+  // const theme = useMantineTheme();
   const [userMenuOpened, setUserMenuOpened] = useState(false);
 
   async function logout() {
