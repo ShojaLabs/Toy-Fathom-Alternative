@@ -3,13 +3,25 @@ import { Button, Paper, UnstyledButton } from "@mantine/core";
 import { Search } from "./search";
 import UserProfileMenu from "./userProfileMenu";
 import Link from "next/link";
-import { IconPlugConnected, IconTopologyStar3 } from "@tabler/icons-react";
+import { IconPlugConnected } from "@tabler/icons-react";
 import Paths from "@/constants/paths";
 import { PageTitle } from "./pageTitle";
 import CallNow from "./callNow";
 import Image from "next/image";
+import db from "@/services/db";
+import { eq } from "drizzle-orm";
+import { ZoomOAuth } from "@/services/db/schema/zoom_oauth";
+import { server_GetUserSession } from "@/supertokens/utils";
 
-export default function AppHeader() {
+export default async function AppHeader() {
+  const session = await server_GetUserSession();
+  const userId = session?.getUserId();
+  if (!userId) return null;
+
+  const isZoomInstalled = await db.query.ZoomOAuth.findFirst({
+    where: eq(ZoomOAuth.userId, userId),
+  });
+
   return (
     <Paper className="transition-all ease-in-out delay-650">
       <div className="h-full flex justify-between items-center">
@@ -31,7 +43,7 @@ export default function AppHeader() {
           <Search />
         </div>
         <div className="flex-1 flex flex-row-reverse gap-2">
-          <UserProfileMenu />
+          {!!userId && <UserProfileMenu />}
           <Link href={Paths.dashboard.integrations()}>
             <Button
               className="h-10"
@@ -42,7 +54,7 @@ export default function AppHeader() {
               Integrations
             </Button>
           </Link>
-          <CallNow />
+          {!!isZoomInstalled && <CallNow />}
         </div>
       </div>
     </Paper>
