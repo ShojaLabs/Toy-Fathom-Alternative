@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect } from "react";
-import { notifications } from "@mantine/notifications";
+// import { notifications } from "@mantine/notifications";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Loader } from "@mantine/core";
 import { useSessionContext } from "supertokens-auth-react/recipe/session";
@@ -18,11 +18,11 @@ function usePageLoadEffect() {
     if (userId && code) {
       install(code as string, userId as string).then((status: boolean) => {
         if (!status) {
-          notifications.show({
-            title: "Failed to connect Slack",
-            message: "Please try again",
-            color: "red",
-          });
+          // notifications.show({
+          //   title: "Failed to connect Slack",
+          //   message: "Please try again",
+          //   color: "red",
+          // });
           router.push(Paths.dashboard.integrations());
         }
       });
