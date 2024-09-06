@@ -2,7 +2,7 @@ export function getGoogleOauthUrl(originalUrl: string) {
   let authUrl = new URL(originalUrl);
   let searchParams = new URLSearchParams(authUrl.search);
   const originalParams = Object.fromEntries(searchParams);
-  console.log(originalParams);
+  // console.log(originalParams);
   const params: any = {
     ...originalParams,
     scope: [
@@ -15,7 +15,7 @@ export function getGoogleOauthUrl(originalUrl: string) {
     prompt: "consent",
   };
 
-  console.log(params);
+  // console.log(params);
   // const url = new URL("https://accounts.google.com/o/oauth2/v2/auth");
   authUrl.search = new URLSearchParams(params).toString();
 

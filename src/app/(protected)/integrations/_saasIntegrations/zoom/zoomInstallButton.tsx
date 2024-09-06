@@ -21,7 +21,7 @@ export default function ZoomInstallButton() {
   const zoomAppClientId = process.env.NEXT_PUBLIC_ZOOM_CLIENT_ID!;
   const zoomAuthURL = generateAuthUrl(redirectUri, zoomAppClientId);
   function onClick() {
-    console.log("Install Zoom", zoomAuthURL);
+    // console.log("Install Zoom", zoomAuthURL);
     router.push(zoomAuthURL);
   }
   return <InstallButton onClick={onClick} />;

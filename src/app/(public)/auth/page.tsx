@@ -274,7 +274,7 @@ export default function AuthenticationForm() {
 
             <form
               onSubmit={form.onSubmit(async () => {
-                console.log("Values : ", form.values);
+                // console.log("Values : ", form.values);
                 setLoading(true);
                 try {
                   if (type === "login") {

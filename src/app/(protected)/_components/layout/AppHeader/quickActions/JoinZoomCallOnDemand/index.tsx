@@ -27,7 +27,7 @@ function JoinZoomCallOnDemand() {
         action={() => {
           const zoomUrl = form.values.link;
           form.reset();
-          console.log("Join Call: ", zoomUrl);
+          // console.log("Join Call: ", zoomUrl);
           bot_joinCallOnDemand(zoomUrl);
 
           window.open(zoomUrl, "_blank");

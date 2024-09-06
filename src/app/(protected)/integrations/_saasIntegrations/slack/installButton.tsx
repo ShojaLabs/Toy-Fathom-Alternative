@@ -8,7 +8,7 @@ export default function ZoomInstallButton() {
   const router = useRouter();
   const slackAuthUrl = process.env.NEXT_PUBLIC_SLACK_AUTH_URL!;
   function onClick() {
-    console.log("Install Slack", slackAuthUrl);
+    // console.log("Install Slack", slackAuthUrl);
     router.push(slackAuthUrl);
   }
   return <InstallButton onClick={onClick} />;
