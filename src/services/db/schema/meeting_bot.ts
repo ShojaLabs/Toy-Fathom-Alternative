@@ -16,7 +16,7 @@ export const MeetingBot = pgTable("meeting_bot", {
   recallBotId: uuid("recall_bot_id").unique().notNull(), // bot id from recall
   meetingId: uuid("meeting_id")
     .notNull()
-    .references(() => Meeting.id),
+    .references(() => Meeting.id, { onDelete: "cascade" }),
 
   metadata: json("metadata"),
   transcript: json("transcript"), // json from recall, transcript by AssemblyAI

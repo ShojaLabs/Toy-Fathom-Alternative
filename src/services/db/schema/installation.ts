@@ -12,7 +12,7 @@ export const Installation = pgTable(
   {
     integrationId: uuid("integration_id")
       .notNull()
-      .references(() => Integration.id),
+      .references(() => Integration.id, { onDelete: "cascade" }),
     userId: uuid("user_id")
       .notNull()
       .references(() => User.id),
