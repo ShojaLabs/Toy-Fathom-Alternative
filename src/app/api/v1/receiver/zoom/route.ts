@@ -3,9 +3,11 @@ import JsonWebToken from "jsonwebtoken";
 import jws from "jws";
 import jwksClient from "jwks-rsa";
 import db from "@/services/db";
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { ZoomOAuth } from "@/services/db/schema/zoom_oauth";
 import Recall, { RecallApis } from "@/services/recall/apis";
+import { Meeting } from "@/services/db/schema/meeting";
+import { Installation } from "@/services/db/schema/installation";
 
 const client = jwksClient({
   jwksUri: `${process.env.NEXT_PUBLIC_SUPERTOKENS_WEBSITE_DOMAIN}${process.env.NEXT_PUBLIC_SUPERTOKENS_API_BASE_PATH}/jwt/jwks.json`,
@@ -40,10 +42,26 @@ export async function POST(request: NextRequest) {
         const zoomOAuth = await db.query.ZoomOAuth.findFirst({
           where: eq(ZoomOAuth.zoomUserId, user_id),
         });
-        const { id } = zoomOAuth!;
+        const { id, userId, integrationId } = zoomOAuth!;
         await db.delete(ZoomOAuth).where(eq(ZoomOAuth.zoomUserId, user_id));
 
         await Recall.delete(RecallApis.delete_zoomOAuthCredentials(id));
+        await db
+          .delete(Meeting)
+          .where(
+            and(
+              eq(Meeting.userId, userId),
+              eq(Meeting.integrationId, integrationId),
+            ),
+          );
+        await db
+          .delete(Installation)
+          .where(
+            and(
+              eq(Installation.userId, userId),
+              eq(Installation.integrationId, integrationId),
+            ),
+          );
       }
       return NextResponse.json({ success: "Hook executed" }, { status: 200 });
     }
