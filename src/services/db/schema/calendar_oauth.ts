@@ -35,7 +35,7 @@ export const CalendarOAuths = pgTable(
         columns: [table.integrationId, table.userId],
         foreignColumns: [Installation.integrationId, Installation.userId],
         name: "installation_fk",
-      }),
+      }).onDelete("cascade"),
     };
   },
 );
