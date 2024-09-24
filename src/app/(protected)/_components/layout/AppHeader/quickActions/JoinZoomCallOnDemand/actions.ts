@@ -21,7 +21,7 @@ export async function bot_joinCallOnDemand(link: string) {
     const integrationId = zoom?.id as string;
     const { data } = await Recall.post(RecallApis.post_createBot(), {
       meeting_url: link,
-      bot_name: "Shoja.ai Note Taker",
+      bot_name: "ShojaAI Notetaker",
       metadata: {
         userId: userId,
       },
