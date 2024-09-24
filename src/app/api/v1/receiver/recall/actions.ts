@@ -259,7 +259,7 @@ export async function scheduleRecallBot(
   const { data } = await Recall.post(RecallApis.schedule_bot(id), {
     deduplication_key: deduplicationKey,
     bot_config: {
-      bot_name: "Shoja.ai Notetaker",
+      bot_name: "ShojaAI Notetaker",
       metadata: {
         userId,
       },
