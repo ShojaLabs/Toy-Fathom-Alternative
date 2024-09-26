@@ -11,6 +11,7 @@ import { CalendarOAuths } from "@/services/db/schema/calendar_oauth";
 import axios from "axios";
 import { uploadRecordings, uploadScreenshots } from "./callRecordingActions";
 import { slack_sendSummaryToUser } from "@/services/slack/helpers";
+import { User } from "@/services/db/schema/user";
 
 const BOT_STATUS_RECORDING_DONE = "recording_done";
 // WARNING: THERE IS A LIMIT OF 6 REQUESTIONS/HOUR FOR THIS API
@@ -255,11 +256,12 @@ export async function scheduleRecallBot(
   id: string,
   deduplicationKey: string,
   userId: string,
+  email?: string,
 ) {
   const { data } = await Recall.post(RecallApis.schedule_bot(id), {
     deduplication_key: deduplicationKey,
     bot_config: {
-      bot_name: "ShojaAI Notetaker",
+      bot_name: (email?.split("@")?.[0] ?? "ShojaAI") + "'s Notetaker",
       metadata: {
         userId,
       },
@@ -307,12 +309,15 @@ export async function scheduleBot(event: any, meeting: any) {
     let recallBot = Array.isArray(recallBots)
       ? recallBots.find((bt: any) => bt.start_time == event.start_time)
       : null;
-
+    const user = await db.query.User.findFirst({
+      where: eq(User.id, meeting?.userId),
+    });
     if (!recallBot) {
       const updatedEvent = await scheduleRecallBot(
         event?.id,
         deduplicationKey,
         meeting?.userId,
+        user?.email,
       );
       recallBot = updatedEvent.bots[0];
     }
