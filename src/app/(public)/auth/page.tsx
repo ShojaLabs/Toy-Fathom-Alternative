@@ -238,6 +238,8 @@ export default function AuthenticationForm() {
     }
   }
 
+  const showForm = process.env.NEXT_PUBLIC_ENV == "DEV" ? true : type == "login";
+
   return (
     <main className="h-screen flex flex-col items-center justify-center">
       <Paper className="min-w-fit p-8" withBorder>
@@ -260,7 +262,7 @@ export default function AuthenticationForm() {
           </GithubButton> */}
         </div>
 
-        {type != "register" && (
+        {showForm && (
           <>
             <Divider
               label={
@@ -364,8 +366,8 @@ export default function AuthenticationForm() {
               </Group>
             </form>
           </>
-        )}
-        {type == "register" && (
+          )}
+        {type == "register" && process.env.NEXT_PUBLIC_ENV != "DEV" && (
           <Anchor
             component="button"
             type="button"

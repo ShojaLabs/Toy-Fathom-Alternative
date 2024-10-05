@@ -8,3 +8,12 @@ This is where the integration with slack comes in. Tokyo automatically share the
 
 # Docs
 1. [Protecting APIs](https://supertokens.com/docs/thirdpartyemailpassword/nextjs/app-directory/session-verification-middleware)
+
+# Local setup
+1. Ask for `.env` file
+2. `mkdir stacks && mkdir stacks/dev_db_data`
+3. `make start-dev` - this starts necessary containers
+4. `pnpm install`
+5. `pnpm dbm && pnpm dev`
+6. `./scripts/serve_from_local.sh`
+7. visit - https://local-dev.shoja.ai
