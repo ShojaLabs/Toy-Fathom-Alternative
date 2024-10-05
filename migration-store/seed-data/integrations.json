@@ -1,0 +1,26 @@
+[
+    {
+        "u_id": "ZOOM",
+        "title": "Zoom",
+        "description": "Zoom integration allows Shoja AI bot to join calls on and take notes and identify action items.",
+        "logo_url": "/zoom/zoom.svg",
+        "is_recommended": true,
+        "is_public": true,
+    },
+    {
+        "u_id": "SLACK",
+        "title": "Slack",
+        "description": "Slack integration allows you to get zoom call notifications directly in slack as DMs. It also allows you to receive the call summary in slack.",
+        "logo_url": "/slack/slack.svg",
+        "is_recommended": true,
+        "is_public": true,
+    },
+    {
+        "u_id": "CALENDAR_GOOGLE",
+        "title": "Google Calendar",
+        "description": "Google calendar integration enables Shoja AI to schedule the bots to join your calls.",
+        "logo_url": "/google/gcal.svg",
+        "is_recommended": true,
+        "is_public": true,
+    }
+]
